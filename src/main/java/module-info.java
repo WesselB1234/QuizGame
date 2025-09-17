@@ -1,8 +1,8 @@
-module com.example.projectjavafundamentals2_1 {
+module com.example.projectjavafundamentals {
     requires javafx.controls;
     requires javafx.fxml;
 
 
-    opens com.example.projectjavafundamentals2_1 to javafx.fxml;
-    exports com.example.projectjavafundamentals2_1;
+    opens com.example.projectjavafundamentals to javafx.fxml;
+    exports com.example.projectjavafundamentals;
 }

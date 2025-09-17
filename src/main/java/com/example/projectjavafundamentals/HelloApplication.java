@@ -1,4 +1,4 @@
-package com.example.projectjavafundamentals2_1;
+package com.example.projectjavafundamentals;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
