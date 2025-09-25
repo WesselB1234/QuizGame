@@ -1,4 +1,4 @@
-package com.example.projectjavafundamentals;
+package AppStartup;
 
 import javafx.application.Application;
 

@@ -3,6 +3,8 @@ module com.example.projectjavafundamentals {
     requires javafx.fxml;
 
 
-    opens com.example.projectjavafundamentals to javafx.fxml;
-    exports com.example.projectjavafundamentals;
+    exports Controllers;
+    opens Controllers to javafx.fxml;
+    exports AppStartup;
+    opens AppStartup to javafx.fxml;
 }
