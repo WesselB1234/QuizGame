@@ -3,6 +3,8 @@ package Controllers;
 import Models.QuizGame;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
@@ -12,6 +14,14 @@ import javafx.scene.Node;
 import javafx.fxml.FXML;
 
 public class MenuController {
+
+    @FXML
+    private Label selectedQuizbl;
+    @FXML
+    private Label errorQuizSelectorLbl;
+    @FXML
+    private Button quizStarterBtn;
+    private QuizGame quizGame;
 
     private QuizGame getQuizGameFromJson(File file){
 
@@ -23,17 +33,17 @@ public class MenuController {
         }
         catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Failed to read JSON from file: " + file.getAbsolutePath());
         }
 
         return quizGame;
     }
 
+
     @FXML
     protected void onFileSelectorClicked(ActionEvent event) {
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Quiz JSON File");
+        fileChooser.setTitle("Open quiz JSON File");
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("JSON Files", "*.json")
         );
@@ -43,18 +53,27 @@ public class MenuController {
 
         if (file != null) {
 
-            System.out.println("Selected file: " + file.getAbsolutePath());
             QuizGame quizGame = getQuizGameFromJson(file);
 
             if(quizGame != null){
-                System.out.println(quizGame.title);
+
+                this.quizGame = quizGame;
+
+                selectedQuizbl.setText("Selected quiz: " + quizGame.title);
+                errorQuizSelectorLbl.setVisible(false);
+                quizStarterBtn.setVisible(true);
             }
             else {
-                System.out.println("No Quiz Game selected");
+                selectedQuizbl.setText("No quiz selected");
+                errorQuizSelectorLbl.setText("Something went wrong selecting the quiz json file");
+                errorQuizSelectorLbl.setVisible(true);
+                quizStarterBtn.setVisible(false);
             }
         }
-        else {
-            System.out.println("File selection cancelled.");
-        }
+    }
+
+    @FXML
+    protected void onQuizStart(ActionEvent event) {
+        System.out.println(quizGame.title);
     }
 }
