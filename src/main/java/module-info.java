@@ -2,6 +2,9 @@ module com.example.projectjavafundamentals {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.annotation;
+    opens Models to com.fasterxml.jackson.databind;
 
 
     exports Controllers;
