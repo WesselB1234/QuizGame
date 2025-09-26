@@ -32,12 +32,17 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
         </padding>
 
-        <Label fx:id="" text="Quiererz: ">
+        <Label fx:id="" text="Question 1: ">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-        <Label fx:id="" visible="false" />
-        <TextField fx:id="" promptText="Your name" />
+
+        <RadioButton text="Option A"/>
+        <RadioButton text="Option B"/>
+        <RadioButton text="Option C"/>
+        <RadioButton text="Option D"/>
+
+        <Button text="Submit question" />
     </VBox>
 </Pane>
