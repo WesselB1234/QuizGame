@@ -3,6 +3,9 @@ package Controllers;
 import Models.QuizGame;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
@@ -16,9 +19,9 @@ import javafx.fxml.FXML;
 public class MenuController {
 
     @FXML
-    private Label selectedQuizbl;
+    private Label selectedQuizLbl;
     @FXML
-    private Label errorQuizSelectorLbl;
+    private Label errorLbl;
     @FXML
     private Button quizStarterBtn;
     private QuizGame quizGame;
@@ -59,21 +62,33 @@ public class MenuController {
 
                 this.quizGame = quizGame;
 
-                selectedQuizbl.setText("Selected quiz: " + quizGame.title);
-                errorQuizSelectorLbl.setVisible(false);
+                selectedQuizLbl.setText("Selected quiz: " + quizGame.title);
+                errorLbl.setVisible(false);
                 quizStarterBtn.setVisible(true);
             }
             else {
-                selectedQuizbl.setText("No quiz selected");
-                errorQuizSelectorLbl.setText("Something went wrong selecting the quiz json file");
-                errorQuizSelectorLbl.setVisible(true);
+                selectedQuizLbl.setText("No quiz selected");
+                errorLbl.setText("Something went wrong selecting the quiz json file");
+                errorLbl.setVisible(true);
                 quizStarterBtn.setVisible(false);
             }
         }
     }
 
     @FXML
-    protected void onQuizStart(ActionEvent event) {
-        System.out.println(quizGame.title);
+    protected void onQuizStart(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/game-view.fxml"));
+        Parent root = loader.load();
+
+        // Get controller and pass data
+        GameController gameController = loader.getController();
+        gameController.setQuizGame(quizGame);
+
+        // Create new stage
+        Stage newStage = new Stage();
+        newStage.setTitle("Game window");
+        newStage.setScene(new Scene(root));
+        newStage.show();
     }
 }

@@ -10,13 +10,13 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
 
-    <Label fx:id="selectedQuizbl" text="No quiz file selected">
+    <Label fx:id="selectedQuizLbl" text="No quiz file selected">
       <font>
          <Font size="18.0" />
       </font>
    </Label>
 
-   <Label fx:id="errorQuizSelectorLbl" text="Something went wrong selecting the file" visible="false" />
+   <Label fx:id="errorLbl" text="Something went wrong" visible="false" />
     <Button onAction="#onFileSelectorClicked" text="Select a JSON quiz file">Select a file</Button>
     <Button fx:id="quizStarterBtn" onAction="#onQuizStart" mnemonicParsing="false" text="Start Quiz" visible="false" />
 </VBox>
