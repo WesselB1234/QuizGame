@@ -21,5 +21,5 @@ public class QuizGame {
     public String title;
     public String description;
     public ArrayList<Page> pages;
-    public ArrayList<QuizPlayerData> quizPlayerData;
+    public QuizPlayerDataManager quizPlayerDataManager;
 }
