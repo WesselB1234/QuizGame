@@ -11,7 +11,7 @@ public class QuizApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(QuizApplication.class.getResource("/menu-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 350.0, 220);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Menu");
         stage.setScene(scene);
         stage.show();
