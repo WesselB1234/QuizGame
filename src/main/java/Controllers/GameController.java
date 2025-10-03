@@ -4,7 +4,9 @@ import Models.QuizGame;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 
 public class GameController {
@@ -19,11 +21,18 @@ public class GameController {
     private Label quizNameLbl;
     @FXML
     private TextField nameTextField;
+    @FXML
+    private ToggleGroup radioQuizToggleGroup;
     private QuizGame quizGame;
 
     public void setQuizGame(QuizGame quizGame) {
         this.quizGame = quizGame;
         quizNameLbl.setText("Quiz: " + quizGame.title);
+    }
+
+    private void startQuiz(){
+        nameSelectorPage.setVisible(false);
+        questionsPage.setVisible(true);
     }
 
     @FXML
@@ -34,8 +43,15 @@ public class GameController {
             errorLbl.setVisible(true);
         }
         else if(quizGame != null){
-            nameSelectorPage.setVisible(false);
-            questionsPage.setVisible(true);
+            startQuiz();
         }
+    }
+
+    @FXML
+    protected void onQuestionSubmit() {
+        RadioButton selectedButton =  (RadioButton)radioQuizToggleGroup.getSelectedToggle();
+        int selectedValue =  Integer.parseInt((String)selectedButton.getUserData());
+
+        System.out.println(selectedValue);
     }
 }

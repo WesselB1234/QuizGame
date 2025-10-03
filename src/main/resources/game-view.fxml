@@ -38,11 +38,17 @@
             </font>
         </Label>
 
-        <RadioButton text="Option A"/>
-        <RadioButton text="Option B"/>
-        <RadioButton text="Option C"/>
-        <RadioButton text="Option D"/>
+        <VBox alignment="CENTER">
+            <fx:define>
+                <ToggleGroup fx:id="radioQuizToggleGroup" />
+            </fx:define>
 
-        <Button text="Submit question" />
+            <RadioButton text="Option A" toggleGroup="$radioQuizToggleGroup" userData="0"/>
+            <RadioButton text="Option B" toggleGroup="$radioQuizToggleGroup" userData="1"/>
+            <RadioButton text="Option C" toggleGroup="$radioQuizToggleGroup" userData="2"/>
+            <RadioButton text="Option D" toggleGroup="$radioQuizToggleGroup" userData="3"/>
+        </VBox>
+
+        <Button text="Submit question" onAction="#onQuestionSubmit" />
     </VBox>
 </Pane>
