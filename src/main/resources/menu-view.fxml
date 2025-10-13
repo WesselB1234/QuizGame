@@ -16,7 +16,7 @@
       </font>
    </Label>
 
-   <Label fx:id="errorLbl" text="Something went wrong" visible="false" />
+    <Label fx:id="errorLbl" text="Something went wrong" visible="false" />
     <Button onAction="#onFileSelectorClicked" text="Select a JSON quiz file">Select a file</Button>
     <Button fx:id="quizStarterBtn" onAction="#onQuizStart" mnemonicParsing="false" text="Start Quiz" visible="false" />
 </VBox>

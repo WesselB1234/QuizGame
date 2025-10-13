@@ -79,13 +79,11 @@ public class MenuController {
     protected void onQuizStart(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/game-view.fxml"));
+        GameController gameController = new GameController(quizGame);
+        loader.setController(gameController);
+
         Parent root = loader.load();
 
-        // Get controller and pass data
-        GameController gameController = loader.getController();
-        gameController.setQuizGame(quizGame);
-
-        // Create new stage
         Stage newStage = new Stage();
         newStage.setTitle("Game window");
         newStage.setScene(new Scene(root));

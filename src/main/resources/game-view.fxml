@@ -1,54 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<Pane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GameController">
-    <VBox fx:id="nameSelectorPage" alignment="CENTER" prefHeight="220.0" prefWidth="350.0" spacing="20.0">
-
-        <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-        </padding>
-
-        <Label fx:id="quizNameLbl" text="Quiz: ">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Label>
-        <Label text="Enter your name to start">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Label>
-        <Label fx:id="errorLbl" visible="false" />
-        <TextField fx:id="nameTextField" promptText="Your name" />
-        <Button onAction="#onGameStart" text="Start" />
-    </VBox>
-    <VBox fx:id="questionsPage" alignment="CENTER" prefHeight="220.0" prefWidth="350.0" spacing="20.0" visible="false">
-
-        <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-        </padding>
-
-        <Label fx:id="" text="Question 1: ">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Label>
-
-        <VBox alignment="CENTER">
-            <fx:define>
-                <ToggleGroup fx:id="radioQuizToggleGroup" />
-            </fx:define>
-
-            <RadioButton text="Option A" toggleGroup="$radioQuizToggleGroup" userData="0"/>
-            <RadioButton text="Option B" toggleGroup="$radioQuizToggleGroup" userData="1"/>
-            <RadioButton text="Option C" toggleGroup="$radioQuizToggleGroup" userData="2"/>
-            <RadioButton text="Option D" toggleGroup="$radioQuizToggleGroup" userData="3"/>
-        </VBox>
-
-        <Button text="Submit question" onAction="#onQuestionSubmit" />
-    </VBox>
+<Pane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:id="layout">
+    <children></children>
 </Pane>

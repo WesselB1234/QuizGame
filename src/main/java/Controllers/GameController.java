@@ -1,57 +1,56 @@
 package Controllers;
 
 import Models.QuizGame;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.VBox;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+
+import java.io.IOException;
 
 public class GameController {
 
     @FXML
-    private VBox nameSelectorPage;
-    @FXML
-    private VBox questionsPage;
-    @FXML
-    private Label errorLbl;
-    @FXML
-    private Label quizNameLbl;
-    @FXML
-    private TextField nameTextField;
-    @FXML
-    private ToggleGroup radioQuizToggleGroup;
+    private Pane layout;
     private QuizGame quizGame;
 
-    public void setQuizGame(QuizGame quizGame) {
+    public GameController (QuizGame quizGame) {
         this.quizGame = quizGame;
-        quizNameLbl.setText("Quiz: " + quizGame.title);
     }
 
-    private void startQuiz(){
-        nameSelectorPage.setVisible(false);
-        questionsPage.setVisible(true);
+    public void loadScene(String name, Object controller) {
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(name));
+            fxmlLoader.setController(controller);
+            Scene scene = new Scene(fxmlLoader.load());
+
+            if (!layout.getChildren().isEmpty())
+            {
+                layout.getChildren().removeFirst();
+            }
+
+            layout.getChildren().add(scene.getRoot());
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void endQuiz(){
+        loadScene("/results-view.fxml", new ResultsController(quizGame, this));
+    }
+
+    public void startQuiz(){
+        loadScene("/question-view.fxml", new QuestionController(quizGame, this));
+    }
+
+    public void startEnterName(){
+        loadScene("/enter-name-view.fxml", new EnterNameController(quizGame, this));
     }
 
     @FXML
-    protected void onGameStart(ActionEvent event) {
-
-        if(nameTextField.getText().isEmpty()) {
-            errorLbl.setText("Please enter your name.");
-            errorLbl.setVisible(true);
-        }
-        else if(quizGame != null){
-            startQuiz();
-        }
-    }
-
-    @FXML
-    protected void onQuestionSubmit() {
-        RadioButton selectedButton =  (RadioButton)radioQuizToggleGroup.getSelectedToggle();
-        int selectedValue =  Integer.parseInt((String)selectedButton.getUserData());
-
-        System.out.println(selectedValue);
+    public void initialize() {
+        startEnterName();
     }
 }
