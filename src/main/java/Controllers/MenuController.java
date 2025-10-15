@@ -52,7 +52,7 @@ public class MenuController {
         );
 
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        File file = fileChooser.showOpenDialog(stage);
+        File file = new File("C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizJson1.JSON");//fileChooser.showOpenDialog(stage);
 
         if (file != null) {
 

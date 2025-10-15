@@ -51,6 +51,7 @@ public class GameController {
 
     @FXML
     public void initialize() {
-        startEnterName();
+        //startEnterName();
+        startQuiz();
     }
 }
