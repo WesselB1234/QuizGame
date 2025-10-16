@@ -1,5 +1,6 @@
 package Controllers;
 
+import Factories.QuestionViewFactory;
 import Models.PageElement;
 import Models.QuizGame;
 import javafx.fxml.FXML;
@@ -13,35 +14,30 @@ public class QuestionController {
     private ToggleGroup radioQuizToggleGroup;
     @FXML
     private VBox questionInputsHolder;
+
     private QuizGame quizGame;
     private GameController gameController;
     private Integer currentQuestionIndex;
     private PageElement currentQuestion;
+    private QuestionViewFactory questionViewFactory;
 
-    public QuestionController(QuizGame quizGame, GameController gameController) {
+    public QuestionController(QuizGame quizGame, GameController gameController, QuestionViewFactory questionViewFactory) {
         this.quizGame = quizGame;
         this.gameController = gameController;
+        this.questionViewFactory = questionViewFactory;
         this.currentQuestionIndex = 0;
     }
 
-    private void generateQuestion(PageElement pageElement) {
-
+    private void generateQuestionByQuestionIndex(){
+        questionViewFactory.createNewQuestionView(radioQuizToggleGroup, questionInputsHolder);
     }
 
     private void switchToNewQuestion(){
 
-        questionInputsHolder.getChildren().clear();
-
         System.out.println("Switching to New Question");
         currentQuestionIndex++;
 
-        for (int i = 0; i < 4; i++){
-            RadioButton radioButton = new RadioButton();
-            radioButton.setText("Test " + i);
-            radioButton.setUserData(String.valueOf(i));
-            radioButton.setToggleGroup(radioQuizToggleGroup);
-            questionInputsHolder.getChildren().add(radioButton);
-        }
+        generateQuestionByQuestionIndex();
     }
 
     @FXML
@@ -56,6 +52,6 @@ public class QuestionController {
 
     @FXML
     public void initialize() {
-        switchToNewQuestion();
+        generateQuestionByQuestionIndex();
     }
 }

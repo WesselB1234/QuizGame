@@ -1,5 +1,6 @@
 package Controllers;
 
+import Factories.QuestionViewFactory;
 import Models.QuizGame;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,7 +43,7 @@ public class GameController {
     }
 
     public void startQuiz(){
-        loadScene("/question-view.fxml", new QuestionController(quizGame, this));
+        loadScene("/question-view.fxml", new QuestionController(quizGame, this, new QuestionViewFactory()));
     }
 
     public void startEnterName(){
