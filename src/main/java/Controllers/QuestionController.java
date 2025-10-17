@@ -1,8 +1,10 @@
 package Controllers;
 
 import Factories.QuestionViewFactory;
+import Models.BooleanElement;
 import Models.PageElement;
 import Models.QuizGame;
+import Models.RadioGroupElement;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -41,7 +43,6 @@ public class QuestionController {
 
     private void switchToNewQuestion(){
 
-        System.out.println("Switching to New Question");
         errorLabel.setVisible(false);
         currentQuestionIndex++;
 
@@ -58,7 +59,7 @@ public class QuestionController {
         if (!errorLabel.isVisible()){
             errorLabel.setVisible(true);
         }
-        errorLabel.setText(errorMessage);
+        errorLabel.setText("An error has occurred: " + errorMessage);
     }
 
     @FXML
@@ -71,9 +72,25 @@ public class QuestionController {
                 throw new Exception("Please select an answer.");
             }
 
-            int selectedValue =  Integer.parseInt((String)selectedButton.getUserData());
+            int selectedValue = Integer.parseInt((String)selectedButton.getUserData());
 
-            System.out.println("Selected value is " + selectedValue);
+            if (currentQuestion instanceof BooleanElement) {
+
+                boolean correctAnswer = ((BooleanElement) currentQuestion).correctAnswer;
+
+                if ((correctAnswer && selectedValue == 1) || (!correctAnswer && selectedValue == 0)) {
+                    System.out.println("Congrats");
+                }
+            }
+            else if (currentQuestion instanceof RadioGroupElement) {
+
+                int correctAnswer = ((RadioGroupElement) currentQuestion).correctAnswer;
+
+                if (correctAnswer == selectedValue) {
+                    System.out.println("Congrats");
+                }
+            }
+
             switchToNewQuestion();
         }
         catch (Exception e){
