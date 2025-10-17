@@ -28,7 +28,8 @@ public class QuestionViewFactory {
         if (pageElement instanceof BooleanElement) {
             createNewAnswerInput("True", "1", radioQuizToggleGroup, questionInputsHolder);
             createNewAnswerInput("False", "0", radioQuizToggleGroup, questionInputsHolder);
-        } else if (pageElement instanceof RadioGroupElement) {
+        }
+        else if (pageElement instanceof RadioGroupElement) {
 
             String[] choices = ((RadioGroupElement) pageElement).choices;
 

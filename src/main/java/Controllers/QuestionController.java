@@ -2,11 +2,14 @@ package Controllers;
 
 import Factories.QuestionViewFactory;
 import Models.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 public class QuestionController {
 
@@ -46,30 +49,37 @@ public class QuestionController {
         questionViewFactory.createNewQuestionView(currentQuestion, radioQuizToggleGroup, questionInputsHolder, questionNameLbl, currentQuestionIndex);
 
         this.currentCountdown = currentPage.timeLimit;
+        countdownLbl.setText(Integer.toString(this.currentCountdown));
 
-        while (currentQuestionIndex.equals(questionIndexAtMethodCall) && this.currentCountdown > 0){
-            this.currentCountdown--;
-            countdownLbl.setText(Integer.toString(this.currentCountdown));
-        }
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
 
-        if (currentQuestionIndex.equals(questionIndexAtMethodCall)){
-            System.out.println("www");
-            System.out.println(currentQuestionIndex);
-            switchToNewQuestion();
-        }
+            if(currentQuestionIndex.equals(questionIndexAtMethodCall) && this.currentCountdown <= 0){
+                timeline.stop();
+                switchToNewQuestion();
+            }
+            else if (!currentQuestionIndex.equals(questionIndexAtMethodCall) || this.currentCountdown <= 0){
+                timeline.stop();
+            }
+            else{
+                this.currentCountdown--;
+                countdownLbl.setText(Integer.toString(this.currentCountdown));
+            }
+        }));
+
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
     private void switchToNewQuestion(){
 
-        errorLbl.setVisible(false);
+        //errorLbl.setVisible(false);
         currentQuestionIndex++;
 
         if(currentQuestionIndex >= quizGame.pages.size()) {
-            System.out.println("end");
             gameController.endQuiz();
         }
         else {
-            System.out.println("bruh");
             generateQuestionByQuestionIndex();
         }
     }

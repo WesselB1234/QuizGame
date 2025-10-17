@@ -28,10 +28,14 @@ public class GameController {
 
             if (!layout.getChildren().isEmpty())
             {
-                layout.getChildren().removeFirst();
+                System.out.println(layout.getChildren());
+                layout.getChildren().clear();
+                System.out.println(layout.getChildren());
             }
 
             layout.getChildren().add(scene.getRoot());
+            System.out.println(name);
+            System.out.println(layout.getChildren());
         }
         catch (IOException e) {
             throw new RuntimeException(e);
