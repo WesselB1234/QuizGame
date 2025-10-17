@@ -19,11 +19,11 @@ public class QuestionViewFactory {
         questionInputsHolder.getChildren().add(radioButton);
     }
 
-    public void createNewQuestionView(PageElement pageElement, ToggleGroup radioQuizToggleGroup, VBox questionInputsHolder, Label questionNameLabel, Integer questionIndex) {
+    public void createNewQuestionView(PageElement pageElement, ToggleGroup radioQuizToggleGroup, VBox questionInputsHolder, Label questionNameLbl, Integer questionIndex) {
 
         radioQuizToggleGroup.selectToggle(null);
         questionInputsHolder.getChildren().clear();
-        questionNameLabel.setText("Question " + (questionIndex + 1) + ": " + pageElement.title);
+        questionNameLbl.setText("Question " + (questionIndex + 1) + ": " + pageElement.title);
 
         if (pageElement instanceof BooleanElement) {
             createNewAnswerInput("True", "1", radioQuizToggleGroup, questionInputsHolder);

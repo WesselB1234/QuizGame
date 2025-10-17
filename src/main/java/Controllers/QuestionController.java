@@ -1,10 +1,7 @@
 package Controllers;
 
 import Factories.QuestionViewFactory;
-import Models.BooleanElement;
-import Models.PageElement;
-import Models.QuizGame;
-import Models.RadioGroupElement;
+import Models.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -18,14 +15,18 @@ public class QuestionController {
     @FXML
     private VBox questionInputsHolder;
     @FXML
-    private Label questionNameLabel;
+    private Label questionNameLbl;
     @FXML
-    private Label errorLabel;
+    private Label errorLbl;
+    @FXML
+    private Label countdownLbl;
 
     private QuizGame quizGame;
     private GameController gameController;
     private Integer currentQuestionIndex;
     private PageElement currentQuestion;
+    private Page currentPage;
+    private Integer currentCountdown;
     private QuestionViewFactory questionViewFactory;
 
     public QuestionController(QuizGame quizGame, GameController gameController, QuestionViewFactory questionViewFactory) {
@@ -33,33 +34,72 @@ public class QuestionController {
         this.gameController = gameController;
         this.questionViewFactory = questionViewFactory;
         this.currentQuestionIndex = 0;
+        this.currentCountdown = 0;
     }
 
     private void generateQuestionByQuestionIndex(){
 
-        currentQuestion = quizGame.pages.get(currentQuestionIndex).pageElement;
-        questionViewFactory.createNewQuestionView(currentQuestion, radioQuizToggleGroup, questionInputsHolder, questionNameLabel, currentQuestionIndex);
+        Integer questionIndexAtMethodCall = currentQuestionIndex;
+
+        currentPage = quizGame.pages.get(currentQuestionIndex);
+        currentQuestion = currentPage.pageElement;
+        questionViewFactory.createNewQuestionView(currentQuestion, radioQuizToggleGroup, questionInputsHolder, questionNameLbl, currentQuestionIndex);
+
+        this.currentCountdown = currentPage.timeLimit;
+
+        while (currentQuestionIndex.equals(questionIndexAtMethodCall) && this.currentCountdown > 0){
+            this.currentCountdown--;
+            countdownLbl.setText(Integer.toString(this.currentCountdown));
+        }
+
+        if (currentQuestionIndex.equals(questionIndexAtMethodCall)){
+            System.out.println("www");
+            System.out.println(currentQuestionIndex);
+            switchToNewQuestion();
+        }
     }
 
     private void switchToNewQuestion(){
 
-        errorLabel.setVisible(false);
+        errorLbl.setVisible(false);
         currentQuestionIndex++;
 
         if(currentQuestionIndex >= quizGame.pages.size()) {
+            System.out.println("end");
             gameController.endQuiz();
         }
         else {
+            System.out.println("bruh");
             generateQuestionByQuestionIndex();
         }
     }
 
     private void makeError(String errorMessage){
 
-        if (!errorLabel.isVisible()){
-            errorLabel.setVisible(true);
+        if (!errorLbl.isVisible()){
+            errorLbl.setVisible(true);
         }
-        errorLabel.setText("An error has occurred: " + errorMessage);
+        errorLbl.setText("An error has occurred: " + errorMessage);
+    }
+
+    private void processQuestionAnswer(int selectedValue){
+
+        if (currentQuestion instanceof BooleanElement) {
+
+            boolean correctAnswer = ((BooleanElement) currentQuestion).correctAnswer;
+
+            if ((correctAnswer && selectedValue == 1) || (!correctAnswer && selectedValue == 0)) {
+                System.out.println("Congrats");
+            }
+        }
+        else if (currentQuestion instanceof RadioGroupElement) {
+
+            int correctAnswer = ((RadioGroupElement) currentQuestion).correctAnswer;
+
+            if (correctAnswer == selectedValue) {
+                System.out.println("Congrats");
+            }
+        }
     }
 
     @FXML
@@ -74,23 +114,7 @@ public class QuestionController {
 
             int selectedValue = Integer.parseInt((String)selectedButton.getUserData());
 
-            if (currentQuestion instanceof BooleanElement) {
-
-                boolean correctAnswer = ((BooleanElement) currentQuestion).correctAnswer;
-
-                if ((correctAnswer && selectedValue == 1) || (!correctAnswer && selectedValue == 0)) {
-                    System.out.println("Congrats");
-                }
-            }
-            else if (currentQuestion instanceof RadioGroupElement) {
-
-                int correctAnswer = ((RadioGroupElement) currentQuestion).correctAnswer;
-
-                if (correctAnswer == selectedValue) {
-                    System.out.println("Congrats");
-                }
-            }
-
+            processQuestionAnswer(selectedValue);
             switchToNewQuestion();
         }
         catch (Exception e){
