@@ -17,6 +17,8 @@ public class QuestionController {
     private VBox questionInputsHolder;
     @FXML
     private Label questionNameLabel;
+    @FXML
+    private Label errorLabel;
 
     private QuizGame quizGame;
     private GameController gameController;
@@ -40,6 +42,7 @@ public class QuestionController {
     private void switchToNewQuestion(){
 
         System.out.println("Switching to New Question");
+        errorLabel.setVisible(false);
         currentQuestionIndex++;
 
         if(currentQuestionIndex >= quizGame.pages.size()) {
@@ -50,14 +53,32 @@ public class QuestionController {
         }
     }
 
+    private void makeError(String errorMessage){
+
+        if (!errorLabel.isVisible()){
+            errorLabel.setVisible(true);
+        }
+        errorLabel.setText(errorMessage);
+    }
+
     @FXML
     protected void onQuestionSubmit() {
 
-        RadioButton selectedButton =  (RadioButton)radioQuizToggleGroup.getSelectedToggle();
-        int selectedValue =  Integer.parseInt((String)selectedButton.getUserData());
+        try{
+            RadioButton selectedButton =  (RadioButton)radioQuizToggleGroup.getSelectedToggle();
 
-        System.out.println("Selected value is " + selectedValue);
-        switchToNewQuestion();
+            if (selectedButton == null){
+                throw new Exception("Please select an answer.");
+            }
+
+            int selectedValue =  Integer.parseInt((String)selectedButton.getUserData());
+
+            System.out.println("Selected value is " + selectedValue);
+            switchToNewQuestion();
+        }
+        catch (Exception e){
+            makeError(e.getMessage());
+        }
     }
 
     @FXML

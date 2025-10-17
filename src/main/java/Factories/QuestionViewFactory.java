@@ -21,6 +21,7 @@ public class QuestionViewFactory {
 
     public void createNewQuestionView(PageElement pageElement, ToggleGroup radioQuizToggleGroup, VBox questionInputsHolder, Label questionNameLabel, Integer questionIndex) {
 
+        radioQuizToggleGroup.selectToggle(null);
         questionInputsHolder.getChildren().clear();
         questionNameLabel.setText("Question " + (questionIndex + 1) + ": " + pageElement.title);
 
