@@ -12,6 +12,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Random;
 
 import javafx.scene.Node;
 import javafx.fxml.FXML;
@@ -33,6 +37,7 @@ public class MenuController {
 
         try {
             quizGame = mapper.readValue(file, QuizGame.class);
+            quizGame.quizId = generateQuizId();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -41,6 +46,23 @@ public class MenuController {
         return quizGame;
     }
 
+    private String generateQuizId(){
+
+        Random rand = new Random();
+        StringBuilder quizId = new StringBuilder();
+
+        for(int i = 0; i < 5; i++){
+            quizId.append(Integer.toString(rand.nextInt(10)));
+        }
+
+        Path path = Paths.get("C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizResults\\resultsQuiz_" + quizId + ".json");
+
+        if (Files.exists(path)) {
+            return generateQuizId();
+        }
+
+        return quizId.toString();
+    }
 
     @FXML
     protected void onFileSelectorClicked(ActionEvent event) {

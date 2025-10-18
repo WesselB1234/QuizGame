@@ -1,7 +1,6 @@
 package Models;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class QuizPlayerDataManager {
 

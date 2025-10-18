@@ -17,7 +17,7 @@ import java.util.ArrayList;
 // C:\Development\ProjectJavaFundamentals\src\main\JSONs\QuizJson1.JSON
 public class QuizGame {
 
-    public Integer quizId;
+    public String quizId;
     public String title;
     public String description;
     public ArrayList<Page> pages;
