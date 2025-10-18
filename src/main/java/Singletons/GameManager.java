@@ -12,7 +12,6 @@ public class GameManager {
 
     public GameManager () {
         players = new HashMap<>();
-        System.out.println("www");
     }
 
     private String generatePlayerId(){
@@ -55,8 +54,6 @@ public class GameManager {
             if(!playerData.questionsAnswered.equals(currentQuestion)){
                 playerData.questionsAnswered = currentQuestion;
             }
-
-            System.out.println(playerData.correctQuestions);
         }
         else{
             throw new Exception("Player not found.");
@@ -73,8 +70,6 @@ public class GameManager {
         QuizPlayerData playerData = new QuizPlayerData(newPlayerName, amountOfQuestions, 0, LocalDate.now());
 
         players.put(playerId, playerData);
-
-        System.out.println(players.size());
 
         return playerId;
     }
