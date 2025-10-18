@@ -2,6 +2,7 @@ package Controllers;
 
 import Factories.QuestionViewFactory;
 import Models.QuizGame;
+import Singletons.GameManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,9 +15,11 @@ public class GameController {
     @FXML
     private Pane layout;
     private QuizGame quizGame;
+    private GameManager gameManager;
 
-    public GameController (QuizGame quizGame) {
+    public GameController (QuizGame quizGame, GameManager gameManager) {
         this.quizGame = quizGame;
+        this.gameManager = gameManager;
     }
 
     public void loadScene(String name, Object controller) {
@@ -36,15 +39,15 @@ public class GameController {
     }
 
     public void endQuiz(){
-        loadScene("/results-view.fxml", new ResultsController(quizGame, this));
+        loadScene("/results-view.fxml", new ResultsController(quizGame, gameManager, this));
     }
 
     public void startQuiz(){
-        loadScene("/question-view.fxml", new QuestionController(quizGame, this, new QuestionViewFactory()));
+        loadScene("/question-view.fxml", new QuestionController(quizGame, gameManager, this, new QuestionViewFactory()));
     }
 
     public void startEnterName(){
-        loadScene("/enter-name-view.fxml", new EnterNameController(quizGame, this));
+        loadScene("/enter-name-view.fxml", new EnterNameController(quizGame, gameManager, this));
     }
 
     @FXML

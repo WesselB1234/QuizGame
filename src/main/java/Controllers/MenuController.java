@@ -1,6 +1,7 @@
 package Controllers;
 
 import Models.QuizGame;
+import Singletons.GameManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -55,7 +56,7 @@ public class MenuController {
             quizId.append(Integer.toString(rand.nextInt(10)));
         }
 
-        Path path = Paths.get("C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizResults\\resultsQuiz_" + quizId + ".json");
+        Path path = Paths.get("C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizResults\\" + quizId + "_results.json");
 
         if (Files.exists(path)) {
             return generateQuizId();
@@ -101,7 +102,7 @@ public class MenuController {
     protected void onQuizStart(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/game-view.fxml"));
-        GameController gameController = new GameController(quizGame);
+        GameController gameController = new GameController(quizGame, new GameManager());
         loader.setController(gameController);
 
         Parent root = loader.load();

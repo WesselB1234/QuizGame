@@ -2,6 +2,7 @@ package Controllers;
 
 import Factories.QuestionViewFactory;
 import Models.*;
+import Singletons.GameManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
@@ -29,6 +30,7 @@ public class QuestionController {
     private Label scoreLbl;
 
     private QuizGame quizGame;
+    private GameManager gameManager;
     private GameController gameController;
     private Integer currentQuestionIndex;
     private PageElement currentQuestion;
@@ -37,8 +39,10 @@ public class QuestionController {
     private QuestionViewFactory questionViewFactory;
     private IntegerProperty score;
 
-    public QuestionController(QuizGame quizGame, GameController gameController, QuestionViewFactory questionViewFactory) {
+    public QuestionController(QuizGame quizGame, GameManager gameManager, GameController gameController, QuestionViewFactory questionViewFactory) {
+
         this.quizGame = quizGame;
+        this.gameManager = gameManager;
         this.gameController = gameController;
         this.questionViewFactory = questionViewFactory;
         this.currentQuestionIndex = 0;
