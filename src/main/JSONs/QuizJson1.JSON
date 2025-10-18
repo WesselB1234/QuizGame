@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "page",
-      "timeLimit": 3,
+      "timeLimit": 15,
       "pageElement": {
           "type": "radiogroup",
           "title": "Which company originally developed Java?",
@@ -20,7 +20,7 @@
     },
     {
       "type": "page",
-      "timeLimit": 2,
+      "timeLimit": 10,
       "pageElement": {
         "type": "boolean",
         "title": "Java is a statically typed programming language.",

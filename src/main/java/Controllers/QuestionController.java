@@ -4,6 +4,8 @@ import Factories.QuestionViewFactory;
 import Models.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -23,6 +25,8 @@ public class QuestionController {
     private Label errorLbl;
     @FXML
     private Label countdownLbl;
+    @FXML
+    private Label scoreLbl;
 
     private QuizGame quizGame;
     private GameController gameController;
@@ -31,6 +35,7 @@ public class QuestionController {
     private Page currentPage;
     private Integer currentCountdown;
     private QuestionViewFactory questionViewFactory;
+    private IntegerProperty score;
 
     public QuestionController(QuizGame quizGame, GameController gameController, QuestionViewFactory questionViewFactory) {
         this.quizGame = quizGame;
@@ -38,6 +43,8 @@ public class QuestionController {
         this.questionViewFactory = questionViewFactory;
         this.currentQuestionIndex = 0;
         this.currentCountdown = 0;
+        this.score = new SimpleIntegerProperty(0);
+        score.set(0);
     }
 
     private void generateQuestionByQuestionIndex(){
@@ -92,6 +99,10 @@ public class QuestionController {
         errorLbl.setText("An error has occurred: " + errorMessage);
     }
 
+    private void processCorrectAnswer(){
+        score.set(score.get() + 1);
+    }
+
     private void processQuestionAnswer(int selectedValue){
 
         if (currentQuestion instanceof BooleanElement) {
@@ -99,7 +110,7 @@ public class QuestionController {
             boolean correctAnswer = ((BooleanElement) currentQuestion).correctAnswer;
 
             if ((correctAnswer && selectedValue == 1) || (!correctAnswer && selectedValue == 0)) {
-                System.out.println("Congrats");
+                processCorrectAnswer();
             }
         }
         else if (currentQuestion instanceof RadioGroupElement) {
@@ -107,7 +118,7 @@ public class QuestionController {
             int correctAnswer = ((RadioGroupElement) currentQuestion).correctAnswer;
 
             if (correctAnswer == selectedValue) {
-                System.out.println("Congrats");
+                processCorrectAnswer();
             }
         }
     }
@@ -134,6 +145,9 @@ public class QuestionController {
 
     @FXML
     public void initialize() {
+
+        scoreLbl.textProperty().bind(score.asString("Score: %d"));
+
         generateQuestionByQuestionIndex();
     }
 }
