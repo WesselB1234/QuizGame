@@ -1,6 +1,7 @@
 package Controllers;
 
 import Models.QuizGame;
+import javafx.fxml.FXML;
 
 public class ResultsController {
 
@@ -10,5 +11,11 @@ public class ResultsController {
     public ResultsController(QuizGame quizGame, GameController gameController) {
         this.quizGame = quizGame;
         this.gameController = gameController;
+    }
+
+    @FXML
+    protected void initialize()
+    {
+        System.out.println("results");
     }
 }

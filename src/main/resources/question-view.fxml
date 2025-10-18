@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.text.Font?>
-
-<VBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" alignment="CENTER" prefHeight="220.0" prefWidth="350.0" spacing="20.0">
+<VBox alignment="CENTER" prefHeight="220.0" prefWidth="350.0" spacing="20.0" style="-fx-background-color: #888888;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
 
-    <Label fx:id="countdownLbl" text="1"/>
-    <Label fx:id="errorLbl" visible="false" text="hi" />
+    <Label fx:id="countdownLbl" text="1" />
+    <Label fx:id="errorLbl" text="hi" visible="false" />
     <Label fx:id="questionNameLbl" text="Question 1: ">
         <font>
             <Font size="18.0" />
         </font>
     </Label>
 
-    <VBox alignment="CENTER" fx:id="questionInputsHolder">
+    <VBox fx:id="questionInputsHolder" alignment="CENTER">
         <fx:define>
             <ToggleGroup fx:id="radioQuizToggleGroup" />
         </fx:define>
 
         <children>
-            <RadioButton text="Option A" toggleGroup="$radioQuizToggleGroup" userData="0"/>
-            <RadioButton text="Option B" toggleGroup="$radioQuizToggleGroup" userData="1"/>
-            <RadioButton text="Option C" toggleGroup="$radioQuizToggleGroup" userData="2"/>
-            <RadioButton text="Option D" toggleGroup="$radioQuizToggleGroup" userData="3"/>
+            <RadioButton text="Option A" userData="0">
+            <toggleGroup>
+               <ToggleGroup fx:id="radioQuizToggleGroup" />
+            </toggleGroup></RadioButton>
+            <RadioButton text="Option B" toggleGroup="$radioQuizToggleGroup" userData="1" />
+            <RadioButton text="Option C" toggleGroup="$radioQuizToggleGroup" userData="2" />
+            <RadioButton text="Option D" toggleGroup="$radioQuizToggleGroup" userData="3" />
         </children>
     </VBox>
 
-    <Button text="Submit question" onAction="#onQuestionSubmit" />
+    <Button onAction="#onQuestionSubmit" text="Submit question" />
 </VBox>

@@ -73,7 +73,7 @@ public class QuestionController {
 
     private void switchToNewQuestion(){
 
-        //errorLbl.setVisible(false);
+        errorLbl.setVisible(false);
         currentQuestionIndex++;
 
         if(currentQuestionIndex >= quizGame.pages.size()) {

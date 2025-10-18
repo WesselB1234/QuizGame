@@ -4,6 +4,7 @@ import Factories.QuestionViewFactory;
 import Models.QuizGame;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
@@ -24,18 +25,11 @@ public class GameController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(name));
             fxmlLoader.setController(controller);
-            Scene scene = new Scene(fxmlLoader.load());
 
-            if (!layout.getChildren().isEmpty())
-            {
-                System.out.println(layout.getChildren());
-                layout.getChildren().clear();
-                System.out.println(layout.getChildren());
-            }
+            Parent newContent = fxmlLoader.load();
 
-            layout.getChildren().add(scene.getRoot());
-            System.out.println(name);
-            System.out.println(layout.getChildren());
+            layout.getChildren().clear();
+            layout.getChildren().add(newContent);
         }
         catch (IOException e) {
             throw new RuntimeException(e);
