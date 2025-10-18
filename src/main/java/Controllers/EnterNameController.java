@@ -25,15 +25,30 @@ public class EnterNameController {
         this.gameManager = gameManager;
     }
 
+    private void makeError(String errorMessage) {
+
+        if (!errorLbl.isVisible()){
+            errorLbl.setVisible(true);
+        }
+        errorLbl.setText("An error has occurred: " + errorMessage);
+    }
+
     @FXML
     protected void onGameStart() {
 
-        if (nameTextField.getText().isEmpty()) {
-            errorLbl.setText("Please enter your name.");
-            errorLbl.setVisible(true);
-        }
-        else {
+        try{
+            String name = nameTextField.getText();
+
+            if (name.isEmpty()) {
+                makeError("Please enter your name.");
+            }
+
+            String playerUserId = gameManager.addPlayerToQuizPlayers(name, quizGame.pages.size());
+            gameController.setPlayerUserId(playerUserId);
             gameController.startQuiz();
+        }
+        catch (Exception e){
+            makeError(e.getMessage());
         }
     }
 

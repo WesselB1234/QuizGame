@@ -16,6 +16,7 @@ public class GameController {
     private Pane layout;
     private QuizGame quizGame;
     private GameManager gameManager;
+    private String playerUserId;
 
     public GameController (QuizGame quizGame, GameManager gameManager) {
         this.quizGame = quizGame;
@@ -36,6 +37,14 @@ public class GameController {
         catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void setPlayerUserId(String playerUserId){
+        this.playerUserId = playerUserId;
+    }
+
+    public String getPlayerUserId(){
+        return playerUserId;
     }
 
     public void endQuiz(){

@@ -30,6 +30,11 @@ public class MenuController {
     @FXML
     private Button quizStarterBtn;
     private QuizGame quizGame;
+    private GameManager gameManager;
+
+    public MenuController(){
+        gameManager = new GameManager();
+    }
 
     private QuizGame getQuizGameFromJson(File file){
 
@@ -102,7 +107,7 @@ public class MenuController {
     protected void onQuizStart(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/game-view.fxml"));
-        GameController gameController = new GameController(quizGame, new GameManager());
+        GameController gameController = new GameController(quizGame, gameManager);
         loader.setController(gameController);
 
         Parent root = loader.load();

@@ -32,11 +32,12 @@ public class QuestionController {
     private QuizGame quizGame;
     private GameManager gameManager;
     private GameController gameController;
+    private QuestionViewFactory questionViewFactory;
+
     private Integer currentQuestionIndex;
     private PageElement currentQuestion;
     private Page currentPage;
     private Integer currentCountdown;
-    private QuestionViewFactory questionViewFactory;
     private IntegerProperty score;
 
     public QuestionController(QuizGame quizGame, GameManager gameManager, GameController gameController, QuestionViewFactory questionViewFactory) {
@@ -45,6 +46,7 @@ public class QuestionController {
         this.gameManager = gameManager;
         this.gameController = gameController;
         this.questionViewFactory = questionViewFactory;
+
         this.currentQuestionIndex = 0;
         this.currentCountdown = 0;
         this.score = new SimpleIntegerProperty(0);
@@ -103,11 +105,16 @@ public class QuestionController {
         errorLbl.setText("An error has occurred: " + errorMessage);
     }
 
-    private void processCorrectAnswer(){
+    private void processCorrectAnswer() throws Exception {
         score.set(score.get() + 1);
+        gameManager.setPlayerScore(gameController.getPlayerUserId(), score.get(), currentQuestionIndex + 1);
     }
 
-    private void processQuestionAnswer(int selectedValue){
+    private void processIncorrectAnswer() throws Exception {
+        gameManager.setPlayerScore(gameController.getPlayerUserId(), score.get(), currentQuestionIndex + 1);
+    }
+
+    private void processQuestionAnswer(int selectedValue) throws Exception {
 
         if (currentQuestion instanceof BooleanElement) {
 
@@ -116,6 +123,9 @@ public class QuestionController {
             if ((correctAnswer && selectedValue == 1) || (!correctAnswer && selectedValue == 0)) {
                 processCorrectAnswer();
             }
+            else {
+                processIncorrectAnswer();
+            }
         }
         else if (currentQuestion instanceof RadioGroupElement) {
 
@@ -123,6 +133,9 @@ public class QuestionController {
 
             if (correctAnswer == selectedValue) {
                 processCorrectAnswer();
+            }
+            else {
+                processIncorrectAnswer();
             }
         }
     }
