@@ -14,6 +14,7 @@ public class QuizApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Menu");
         stage.setScene(scene);
+        stage.sizeToScene();
         stage.show();
     }
 }

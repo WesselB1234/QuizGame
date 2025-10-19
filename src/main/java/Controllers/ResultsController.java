@@ -4,15 +4,17 @@ import Models.QuizGame;
 import Models.QuizPlayerData;
 import Models.QuizPlayerDataManager;
 import Singletons.GameManager;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableView;
 
-import java.io.File;
 import java.io.IOException;
 
 public class ResultsController {
+
+    @FXML
+    private TableView resultsTableView;
 
     private QuizGame quizGame;
     private GameManager gameManager;
@@ -31,5 +33,8 @@ public class ResultsController {
         String fileName = resultsJsonDir + quizGame.quizId + "-results.json";
 
         QuizPlayerDataManager dataManager = gameManager.getQuizPlayerDataManagerFromJson(fileName);
+        ObservableList<QuizPlayerData> playerScores = FXCollections.observableArrayList(dataManager.quizPlayersData);
+
+        resultsTableView.setItems(playerScores);
     }
 }

@@ -7,8 +7,8 @@ module com.example.projectjavafundamentals {
     requires javafx.base;
     requires javafx.graphics;
     requires com.fasterxml.jackson.datatype.jsr310;
-    opens Models to com.fasterxml.jackson.databind;
-
+    
+    opens Models to com.fasterxml.jackson.databind, javafx.base;
 
     exports Controllers;
     opens Controllers to javafx.fxml;

@@ -6,14 +6,14 @@ import Singletons.GameManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
 public class GameController {
 
     @FXML
-    private Pane layout;
+    private StackPane layout;
     private QuizGame quizGame;
     private GameManager gameManager;
     private String playerUserId;

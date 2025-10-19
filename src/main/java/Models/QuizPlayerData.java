@@ -29,4 +29,20 @@ public class QuizPlayerData {
     }
 
     public QuizPlayerData() {}
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public Integer getQuestionsAnswered() {
+        return questionsAnswered;
+    }
+
+    public Integer getCorrectQuestions() {
+        return correctQuestions;
+    }
+
+    public LocalDateTime getJoinDate() {
+        return joinDate;
+    }
 }
