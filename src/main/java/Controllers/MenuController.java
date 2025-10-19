@@ -72,7 +72,7 @@ public class MenuController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open quiz JSON File");
         fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("JSON Files", "*.json")
+            new FileChooser.ExtensionFilter("JSON Files", "*.json")
         );
 
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -92,8 +92,9 @@ public class MenuController {
                 quizStarterBtn.setVisible(true);
             }
             else {
-                selectedQuizLbl.setText("No quiz selected");
-                errorLbl.setText("Something went wrong selecting the quiz json file");
+                // REFACTOR THIS PLEASE WESSEL DON'T FORGET THIS
+                selectedQuizLbl.setText("No quiz selected.");
+                errorLbl.setText("Something went wrong selecting the quiz json file.");
                 errorLbl.setVisible(true);
                 quizStarterBtn.setVisible(false);
             }

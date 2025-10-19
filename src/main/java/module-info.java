@@ -6,6 +6,7 @@ module com.example.projectjavafundamentals {
     requires com.fasterxml.jackson.annotation;
     requires javafx.base;
     requires javafx.graphics;
+    requires com.fasterxml.jackson.datatype.jsr310;
     opens Models to com.fasterxml.jackson.databind;
 
 

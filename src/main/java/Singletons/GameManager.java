@@ -2,18 +2,25 @@ package Singletons;
 
 import Models.QuizGame;
 import Models.QuizPlayerData;
+import Models.QuizPlayerDataManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import java.time.LocalDate;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 public class GameManager {
 
-    private HashMap<String, QuizPlayerData> players;
     private QuizGame quizGame;
+    private HashMap<String, QuizPlayerData> players = new HashMap<>();
+    private final String resultsJsonDir = "C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizResults";
 
     public GameManager (QuizGame quizGame) {
-        players = new HashMap<>();
         this.quizGame = quizGame;
     }
 
@@ -44,7 +51,7 @@ public class GameManager {
         return false;
     }
 
-    public void setPlayerScore(String playerId, Integer score, Integer currentQuestion) throws Exception{
+    public void setPlayerScore(String playerId, Integer score, Integer currentQuestionNumber) throws Exception{
 
         if (players.containsKey(playerId)) {
 
@@ -54,8 +61,8 @@ public class GameManager {
                 playerData.correctQuestions = score;
             }
 
-            if(!playerData.questionsAnswered.equals(currentQuestion)){
-                playerData.questionsAnswered = currentQuestion;
+            if(!playerData.questionsAnswered.equals(currentQuestionNumber)){
+                playerData.questionsAnswered = currentQuestionNumber;
             }
         }
         else{
@@ -70,15 +77,41 @@ public class GameManager {
         }
 
         String playerId = generatePlayerId();
-        QuizPlayerData playerData = new QuizPlayerData(newPlayerName, amountOfQuestions, 0, LocalDate.now());
+        QuizPlayerData playerData = new QuizPlayerData(newPlayerName, 0, 0, LocalDateTime.now());
 
         players.put(playerId, playerData);
 
         return playerId;
     }
 
-    public void saveScoresToJson(){
-        System.out.println(quizGame.quizId);
+    private void setPlayerDataManagerToJson(QuizPlayerDataManager dataManager){
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        String fileName = resultsJsonDir + "/" + quizGame.quizId + "-results.json";
+
+        try {
+            mapper.writeValue(new File(fileName), dataManager);
+            System.out.println("Scores saved to " + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Failed to save quiz scores to JSON.");
+        }
+    }
+
+    public void saveScores(){
+
+        QuizPlayerDataManager dataManager = new QuizPlayerDataManager();
+        ArrayList<QuizPlayerData> quizPlayersData = new ArrayList<>(players.values());
+
+        dataManager.quizId = quizGame.quizId;
+        dataManager.quizName = quizGame.title;
+        dataManager.quizPlayersData = quizPlayersData;
+
+        setPlayerDataManagerToJson(dataManager);
     }
 
     public QuizGame getQuizGame() {

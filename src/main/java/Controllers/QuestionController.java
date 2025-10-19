@@ -95,6 +95,7 @@ public class QuestionController {
         currentQuestionIndex++;
 
         if(currentQuestionIndex >= quizGame.pages.size()) {
+            gameManager.saveScores();
             gameController.endQuiz();
         }
         else {

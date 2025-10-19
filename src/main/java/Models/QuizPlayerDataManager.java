@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class QuizPlayerDataManager {
 
-    public Integer quizId;
+    public String quizId;
     public String quizName;
-    public ArrayList<QuizPlayerData> quizPlayerData;
+    public ArrayList<QuizPlayerData> quizPlayersData;
 }
