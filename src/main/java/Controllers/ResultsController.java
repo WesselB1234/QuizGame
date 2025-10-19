@@ -7,14 +7,20 @@ import Singletons.GameManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ResultsController {
 
     @FXML
     private TableView resultsTableView;
+    @FXML
+    private TableColumn joinDateColumn;
 
     private QuizGame quizGame;
     private GameManager gameManager;
@@ -34,6 +40,23 @@ public class ResultsController {
 
         QuizPlayerDataManager dataManager = gameManager.getQuizPlayerDataManagerFromJson(fileName);
         ObservableList<QuizPlayerData> playerScores = FXCollections.observableArrayList(dataManager.quizPlayersData);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        joinDateColumn.setCellFactory(column -> new TableCell<QuizPlayerData, LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime item, boolean empty) {
+
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                }
+                else {
+                    setText(item.format(formatter));
+                }
+            }
+        });
 
         resultsTableView.setItems(playerScores);
     }
