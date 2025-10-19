@@ -32,10 +32,6 @@ public class MenuController {
     private QuizGame quizGame;
     private GameManager gameManager;
 
-    public MenuController(){
-        gameManager = new GameManager();
-    }
-
     private QuizGame getQuizGameFromJson(File file){
 
         ObjectMapper mapper = new ObjectMapper();
@@ -89,6 +85,7 @@ public class MenuController {
             if(quizGame != null){
 
                 this.quizGame = quizGame;
+                gameManager = new GameManager(quizGame);
 
                 selectedQuizLbl.setText("Selected quiz: " + quizGame.title);
                 errorLbl.setVisible(false);
@@ -107,7 +104,7 @@ public class MenuController {
     protected void onQuizStart(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/game-view.fxml"));
-        GameController gameController = new GameController(quizGame, gameManager);
+        GameController gameController = new GameController(gameManager);
         loader.setController(gameController);
 
         Parent root = loader.load();

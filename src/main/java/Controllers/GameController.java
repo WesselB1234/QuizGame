@@ -18,8 +18,9 @@ public class GameController {
     private GameManager gameManager;
     private String playerUserId;
 
-    public GameController (QuizGame quizGame, GameManager gameManager) {
-        this.quizGame = quizGame;
+    public GameController (GameManager gameManager) {
+        this.gameManager = gameManager;
+        this.quizGame = this.gameManager.getQuizGame();
         this.gameManager = gameManager;
     }
 
@@ -48,15 +49,15 @@ public class GameController {
     }
 
     public void endQuiz(){
-        loadScene("/results-view.fxml", new ResultsController(quizGame, gameManager, this));
+        loadScene("/results-view.fxml", new ResultsController(gameManager, this));
     }
 
     public void startQuiz(){
-        loadScene("/question-view.fxml", new QuestionController(quizGame, gameManager, this, new QuestionViewFactory()));
+        loadScene("/question-view.fxml", new QuestionController(gameManager, this, new QuestionViewFactory()));
     }
 
     public void startEnterName(){
-        loadScene("/enter-name-view.fxml", new EnterNameController(quizGame, gameManager, this));
+        loadScene("/enter-name-view.fxml", new EnterNameController(gameManager, this));
     }
 
     @FXML

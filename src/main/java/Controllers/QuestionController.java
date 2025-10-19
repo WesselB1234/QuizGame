@@ -44,10 +44,10 @@ public class QuestionController {
 
     private Page currentPage;
 
-    public QuestionController(QuizGame quizGame, GameManager gameManager, GameController gameController, QuestionViewFactory questionViewFactory) {
+    public QuestionController(GameManager gameManager, GameController gameController, QuestionViewFactory questionViewFactory) {
 
-        this.quizGame = quizGame;
         this.gameManager = gameManager;
+        this.quizGame = this.gameManager.getQuizGame();
         this.gameController = gameController;
         this.questionViewFactory = questionViewFactory;
 

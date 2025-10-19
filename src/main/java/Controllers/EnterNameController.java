@@ -14,13 +14,15 @@ public class EnterNameController {
     private Label quizNameLbl;
     @FXML
     private TextField nameTextField;
-    @FXML
+
     private QuizGame quizGame;
     private GameManager gameManager;
     private GameController gameController;
 
-    public EnterNameController(QuizGame quizGame, GameManager gameManager, GameController gameController) {
-        this.quizGame = quizGame;
+    public EnterNameController(GameManager gameManager, GameController gameController) {
+
+        this.gameManager = gameManager;
+        this.quizGame = this.gameManager.getQuizGame();
         this.gameController = gameController;
         this.gameManager = gameManager;
     }

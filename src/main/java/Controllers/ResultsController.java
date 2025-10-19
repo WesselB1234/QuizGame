@@ -10,9 +10,9 @@ public class ResultsController {
     private GameManager gameManager;
     private GameController gameController;
 
-    public ResultsController(QuizGame quizGame, GameManager gameManager, GameController gameController) {
-        this.quizGame = quizGame;
+    public ResultsController(GameManager gameManager, GameController gameController) {
         this.gameManager = gameManager;
+        this.quizGame = this.gameManager.getQuizGame();
         this.gameController = gameController;
     }
 

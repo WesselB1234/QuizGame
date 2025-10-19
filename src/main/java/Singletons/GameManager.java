@@ -1,5 +1,6 @@
 package Singletons;
 
+import Models.QuizGame;
 import Models.QuizPlayerData;
 
 import java.time.LocalDate;
@@ -9,9 +10,11 @@ import java.util.Random;
 public class GameManager {
 
     private HashMap<String, QuizPlayerData> players;
+    private QuizGame quizGame;
 
-    public GameManager () {
+    public GameManager (QuizGame quizGame) {
         players = new HashMap<>();
+        this.quizGame = quizGame;
     }
 
     private String generatePlayerId(){
@@ -72,5 +75,13 @@ public class GameManager {
         players.put(playerId, playerData);
 
         return playerId;
+    }
+
+    public void saveScoresToJson(){
+        System.out.println(quizGame.quizId);
+    }
+
+    public QuizGame getQuizGame() {
+        return quizGame;
     }
 }
