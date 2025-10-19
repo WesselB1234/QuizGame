@@ -3,6 +3,7 @@ package Factories;
 import Models.BooleanElement;
 import Models.PageElement;
 import Models.RadioGroupElement;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -19,7 +20,7 @@ public class QuestionViewFactory {
         questionInputsHolder.getChildren().add(radioButton);
     }
 
-    public void createNewQuestionView(PageElement pageElement, ToggleGroup radioQuizToggleGroup, VBox questionInputsHolder, Label questionNameLbl, Integer questionIndex) {
+    public void createNewQuestionView(PageElement pageElement, ToggleGroup radioQuizToggleGroup, VBox questionInputsHolder, Label questionNameLbl, Integer questionIndex, Boolean isLastQuestion, Button questionSubmitButton) {
 
         radioQuizToggleGroup.selectToggle(null);
         questionInputsHolder.getChildren().clear();
@@ -36,6 +37,15 @@ public class QuestionViewFactory {
             for (int i = 0; i < choices.length; i++) {
                 createNewAnswerInput(choices[i], String.valueOf(i), radioQuizToggleGroup, questionInputsHolder);
             }
+        }
+
+        String submitQuestionBtnTxt = "Submit question";
+
+        if (isLastQuestion) {
+            questionSubmitButton.setText("Finish quiz");
+        }
+        else if (!questionSubmitButton.getText().equals(submitQuestionBtnTxt)) {
+            questionSubmitButton.setText(submitQuestionBtnTxt);
         }
     }
 }

@@ -26,15 +26,12 @@
         </fx:define>
 
         <children>
-            <RadioButton text="Option A" userData="0">
-            <toggleGroup>
-               <ToggleGroup fx:id="radioQuizToggleGroup" />
-            </toggleGroup></RadioButton>
+            <RadioButton text="Option A" toggleGroup="$radioQuizToggleGroup" userData="0" />
             <RadioButton text="Option B" toggleGroup="$radioQuizToggleGroup" userData="1" />
             <RadioButton text="Option C" toggleGroup="$radioQuizToggleGroup" userData="2" />
             <RadioButton text="Option D" toggleGroup="$radioQuizToggleGroup" userData="3" />
         </children>
     </VBox>
 
-    <Button onAction="#onQuestionSubmit" text="Submit question" />
+    <Button onAction="#onQuestionSubmit" fx:id="questionSubmitButton" text="Submit question" />
 </VBox>

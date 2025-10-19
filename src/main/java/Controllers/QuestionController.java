@@ -8,6 +8,7 @@ import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -28,6 +29,8 @@ public class QuestionController {
     private Label countdownLbl;
     @FXML
     private Label scoreLbl;
+    @FXML
+    private Button questionSubmitButton;
 
     private QuizGame quizGame;
     private GameManager gameManager;
@@ -36,9 +39,10 @@ public class QuestionController {
 
     private Integer currentQuestionIndex;
     private PageElement currentQuestion;
-    private Page currentPage;
     private Integer currentCountdown;
     private IntegerProperty score;
+
+    private Page currentPage;
 
     public QuestionController(QuizGame quizGame, GameManager gameManager, GameController gameController, QuestionViewFactory questionViewFactory) {
 
@@ -59,24 +63,25 @@ public class QuestionController {
 
         currentPage = quizGame.pages.get(currentQuestionIndex);
         currentQuestion = currentPage.pageElement;
-        questionViewFactory.createNewQuestionView(currentQuestion, radioQuizToggleGroup, questionInputsHolder, questionNameLbl, currentQuestionIndex);
+        questionViewFactory.createNewQuestionView(currentQuestion, radioQuizToggleGroup, questionInputsHolder, questionNameLbl, currentQuestionIndex,
+               currentQuestionIndex + 1 == quizGame.pages.size(), questionSubmitButton);
 
-        this.currentCountdown = currentPage.timeLimit;
-        countdownLbl.setText(Integer.toString(this.currentCountdown));
+        currentCountdown = currentPage.timeLimit;
+        countdownLbl.setText(Integer.toString(currentCountdown));
 
         Timeline timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
 
-            if(currentQuestionIndex.equals(questionIndexAtMethodCall) && this.currentCountdown <= 0){
+            if(currentQuestionIndex.equals(questionIndexAtMethodCall) && currentCountdown <= 0){
                 timeline.stop();
                 switchToNewQuestion();
             }
-            else if (!currentQuestionIndex.equals(questionIndexAtMethodCall) || this.currentCountdown <= 0){
+            else if (!currentQuestionIndex.equals(questionIndexAtMethodCall) || currentCountdown <= 0){
                 timeline.stop();
             }
             else{
-                this.currentCountdown--;
-                countdownLbl.setText(Integer.toString(this.currentCountdown));
+                currentCountdown--;
+                countdownLbl.setText(Integer.toString(currentCountdown));
             }
         }));
 

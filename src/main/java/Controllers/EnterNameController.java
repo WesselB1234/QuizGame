@@ -40,7 +40,7 @@ public class EnterNameController {
             String name = nameTextField.getText();
 
             if (name.isEmpty()) {
-                makeError("Please enter your name.");
+                throw new Exception("Please enter your name.");
             }
 
             String playerUserId = gameManager.addPlayerToQuizPlayers(name, quizGame.pages.size());
