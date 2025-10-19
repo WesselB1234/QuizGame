@@ -18,7 +18,7 @@ public class GameManager {
 
     private QuizGame quizGame;
     private HashMap<String, QuizPlayerData> players = new HashMap<>();
-    private final String resultsJsonDir = "C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizResults";
+    private final String resultsJsonDir = "C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizResults\\";
 
     public GameManager (QuizGame quizGame) {
         this.quizGame = quizGame;
@@ -91,7 +91,7 @@ public class GameManager {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        String fileName = resultsJsonDir + "/" + quizGame.quizId + "-results.json";
+        String fileName = resultsJsonDir + quizGame.quizId + "-results.json";
 
         try {
             mapper.writeValue(new File(fileName), dataManager);
@@ -112,6 +112,15 @@ public class GameManager {
         dataManager.quizPlayersData = quizPlayersData;
 
         setPlayerDataManagerToJson(dataManager);
+    }
+
+    public QuizPlayerDataManager getQuizPlayerDataManagerFromJson(String fileName) throws IOException{
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        return mapper.readValue(new File(fileName), QuizPlayerDataManager.class);
     }
 
     public QuizGame getQuizGame() {

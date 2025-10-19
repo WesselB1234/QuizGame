@@ -1,6 +1,18 @@
 package Models;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.time.LocalDateTime;
+
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type"
+)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = QuizPlayerData.class, name = "quizPlayerData"),
+})
 
 public class QuizPlayerData {
 
@@ -15,4 +27,6 @@ public class QuizPlayerData {
         this.correctQuestions = correctQuestions;
         this.joinDate = joinDate;
     }
+
+    public QuizPlayerData() {}
 }
