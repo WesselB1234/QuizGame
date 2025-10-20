@@ -1,0 +1,23 @@
+package Services;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+
+public class ErrorHandlerService {
+
+    private Label errorLbl;
+
+    public ErrorHandlerService(Label errorLbl) {
+        this.errorLbl = errorLbl;
+
+        System.out.println(errorLbl);
+    }
+
+    public void displayErrorMessage(String errorMessage){
+
+        if (!errorLbl.isVisible()){
+            errorLbl.setVisible(true);
+        }
+        errorLbl.setText("An error has occurred: " + errorMessage);
+    }
+}

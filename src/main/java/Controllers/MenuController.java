@@ -1,6 +1,7 @@
 package Controllers;
 
 import Models.QuizGame;
+import Services.ErrorHandlerService;
 import Singletons.GameManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.ActionEvent;
@@ -34,6 +35,8 @@ public class MenuController {
     private GameManager gameManager;
     private final String resultsFolderDir = "C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizResults\\";
 
+    private ErrorHandlerService errorHandlerService;
+
     private QuizGame getQuizGameFromJson(File file) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
@@ -41,14 +44,6 @@ public class MenuController {
         quizGame.quizId = generateQuizId();
 
         return quizGame;
-    }
-
-    private void displayErrorMessage(String errorMessage){
-
-        if (!errorLbl.isVisible()){
-            errorLbl.setVisible(true);
-        }
-        errorLbl.setText("An error has occurred: " + errorMessage);
     }
 
     private String generateQuizId(){
@@ -92,7 +87,7 @@ public class MenuController {
         catch(Exception e){
             selectedQuizLbl.setText("No quiz selected.");
             quizStarterBtn.setVisible(false);
-            displayErrorMessage(e.getMessage());
+            errorHandlerService.displayErrorMessage(e.getMessage());
         }
     }
 
@@ -111,5 +106,10 @@ public class MenuController {
         newStage.setWidth(900);
         newStage.setHeight(500);
         newStage.show();
+    }
+
+    @FXML
+    protected void initialize() {
+        errorHandlerService = new ErrorHandlerService(errorLbl);
     }
 }

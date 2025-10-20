@@ -1,6 +1,7 @@
 package Controllers;
 
 import Models.QuizGame;
+import Services.ErrorHandlerService;
 import Singletons.GameManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -19,20 +20,14 @@ public class EnterNameController {
     private GameManager gameManager;
     private GameController gameController;
 
+    private ErrorHandlerService errorHandlerService;
+
     public EnterNameController(GameManager gameManager, GameController gameController) {
 
         this.gameManager = gameManager;
         this.quizGame = this.gameManager.getQuizGame();
         this.gameController = gameController;
         this.gameManager = gameManager;
-    }
-
-    private void makeError(String errorMessage) {
-
-        if (!errorLbl.isVisible()){
-            errorLbl.setVisible(true);
-        }
-        errorLbl.setText("An error has occurred: " + errorMessage);
     }
 
     @FXML
@@ -50,12 +45,15 @@ public class EnterNameController {
             gameController.startQuiz();
         }
         catch (Exception e){
-            makeError(e.getMessage());
+            errorHandlerService.displayErrorMessage(e.getMessage());
         }
     }
 
     @FXML
     public void initialize() {
+
+        errorHandlerService = new ErrorHandlerService(errorLbl);
+
         quizNameLbl.setText("Quiz: " + quizGame.title);
     }
 }

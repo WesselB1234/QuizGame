@@ -3,6 +3,7 @@ package Controllers;
 import Models.QuizGame;
 import Models.QuizPlayerData;
 import Models.QuizPlayerDataManager;
+import Services.ErrorHandlerService;
 import Singletons.GameManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,22 +30,19 @@ public class ResultsController {
     private GameManager gameManager;
     private GameController gameController;
 
+    private ErrorHandlerService errorHandlerService;
+
     public ResultsController(GameManager gameManager, GameController gameController) {
+
         this.gameManager = gameManager;
         this.quizGame = this.gameManager.getQuizGame();
         this.gameController = gameController;
     }
 
-    private void displayErrorMessage(String errorMessage){
-
-        if (!errorLbl.isVisible()){
-            errorLbl.setVisible(true);
-        }
-        errorLbl.setText("An error has occurred: " + errorMessage);
-    }
-
     @FXML
-    protected void initialize() throws IOException {
+    protected void initialize() {
+
+        errorHandlerService = new ErrorHandlerService(errorLbl);
 
         try{
             QuizPlayerDataManager dataManager = gameManager.getQuizPlayerDataManagerFromJson();
@@ -70,7 +68,7 @@ public class ResultsController {
             resultsTableView.setItems(playerScores);
         }
         catch (Exception e){
-            displayErrorMessage(e.getMessage());
+            errorHandlerService.displayErrorMessage(e.getMessage());
         }
     }
 }

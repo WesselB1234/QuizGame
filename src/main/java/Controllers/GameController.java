@@ -1,7 +1,6 @@
 package Controllers;
 
 import Factories.QuestionViewFactory;
-import Models.QuizGame;
 import Singletons.GameManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,13 +13,10 @@ public class GameController {
 
     @FXML
     private StackPane layout;
-    private QuizGame quizGame;
     private GameManager gameManager;
     private String playerUserId;
 
     public GameController (GameManager gameManager) {
-        this.gameManager = gameManager;
-        this.quizGame = this.gameManager.getQuizGame();
         this.gameManager = gameManager;
     }
 

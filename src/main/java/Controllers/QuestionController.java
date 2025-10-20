@@ -2,6 +2,7 @@ package Controllers;
 
 import Factories.QuestionViewFactory;
 import Models.*;
+import Services.ErrorHandlerService;
 import Singletons.GameManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -41,8 +42,9 @@ public class QuestionController {
     private PageElement currentQuestion;
     private Integer currentCountdown;
     private IntegerProperty score;
-
     private Page currentPage;
+
+    private ErrorHandlerService errorHandlerService;
 
     public QuestionController(GameManager gameManager, GameController gameController, QuestionViewFactory questionViewFactory) {
 
@@ -104,16 +106,8 @@ public class QuestionController {
             }
         }
         catch (Exception e){
-            displayErrorMessage(e.getMessage());
+            errorHandlerService.displayErrorMessage(e.getMessage());
         }
-    }
-
-    private void displayErrorMessage(String errorMessage){
-
-        if (!errorLbl.isVisible()){
-            errorLbl.setVisible(true);
-        }
-        errorLbl.setText("An error has occurred: " + errorMessage);
     }
 
     private void processCorrectAnswer() throws Exception {
@@ -167,13 +161,14 @@ public class QuestionController {
             switchToNewQuestion();
         }
         catch (Exception e){
-            displayErrorMessage(e.getMessage());
+            errorHandlerService.displayErrorMessage(e.getMessage());
         }
     }
 
     @FXML
     public void initialize() {
 
+        errorHandlerService = new ErrorHandlerService(errorLbl);
         scoreLbl.textProperty().bind(score.asString("Score: %d"));
 
         generateQuestionByQuestionIndex();
