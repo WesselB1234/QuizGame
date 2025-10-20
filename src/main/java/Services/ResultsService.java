@@ -12,24 +12,16 @@ public class ResultsService {
     private GameManager gameManager;
     private TableView<QuizPlayerData> resultsTableView;
 
-    private ErrorHandlerService errorHandlerService;
-
-    public ResultsService(GameManager gameManager, TableView<QuizPlayerData> resultsTableView, ErrorHandlerService errorHandlerService) {
+    public ResultsService(GameManager gameManager, TableView<QuizPlayerData> resultsTableView) {
         this.gameManager = gameManager;
         this.resultsTableView = resultsTableView;
-        this.errorHandlerService = errorHandlerService;
     }
 
-    public void getAndPutScoresInTable(){
+    public void getAndPutScoresInTable() throws Exception{
 
-        try{
-            QuizPlayerDataManager dataManager = gameManager.getQuizPlayerDataManagerFromJson();
-            ObservableList<QuizPlayerData> playerScores = FXCollections.observableArrayList(dataManager.quizPlayersData);
+        QuizPlayerDataManager dataManager = gameManager.getQuizPlayerDataManagerFromJson();
+        ObservableList<QuizPlayerData> playerScores = FXCollections.observableArrayList(dataManager.quizPlayersData);
 
-            resultsTableView.setItems(playerScores);
-        }
-        catch (Exception e){
-            errorHandlerService.displayErrorMessage(e.getMessage());
-        }
+        resultsTableView.setItems(playerScores);
     }
 }

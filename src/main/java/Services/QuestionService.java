@@ -26,9 +26,7 @@ public class QuestionService {
     private IntegerProperty score;
     private Page currentPage;
 
-    private ErrorHandlerService errorHandlerService;
-
-    public QuestionService(GameManager gameManager, GameController gameController, QuestionViewFactory questionViewFactory, QuestionViewContext questionViewContext, ErrorHandlerService errorHandlerService) {
+    public QuestionService(GameManager gameManager, GameController gameController, QuestionViewFactory questionViewFactory, QuestionViewContext questionViewContext) {
 
         this.questionViewContext = questionViewContext;
 
@@ -36,7 +34,6 @@ public class QuestionService {
         this.quizGame = this.gameManager.getQuizGame();
         this.gameController = gameController;
         this.questionViewFactory = questionViewFactory;
-        this.errorHandlerService = errorHandlerService;
 
         this.currentQuestionIndex = 0;
         this.currentCountdown = 0;
@@ -46,7 +43,7 @@ public class QuestionService {
         questionViewContext.scoreLbl.textProperty().bind(score.asString("Score: %d"));
     }
 
-    public void generateQuestionByQuestionIndex(){
+    public void generateQuestionByQuestionIndex() throws Exception {
 
         Integer questionIndexAtMethodCall = currentQuestionIndex;
 
@@ -62,7 +59,11 @@ public class QuestionService {
 
             if(currentQuestionIndex.equals(questionIndexAtMethodCall) && currentCountdown <= 0){
                 timeline.stop();
-                switchToNewQuestion();
+                try {
+                    switchToNewQuestion();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
             else if (!currentQuestionIndex.equals(questionIndexAtMethodCall) || currentCountdown <= 0){
                 timeline.stop();
@@ -77,22 +78,17 @@ public class QuestionService {
         timeline.play();
     }
 
-    public void switchToNewQuestion(){
+    public void switchToNewQuestion() throws Exception {
 
-        try{
-            questionViewContext.errorLbl.setVisible(false);
-            currentQuestionIndex++;
+        questionViewContext.errorLbl.setVisible(false);
+        currentQuestionIndex++;
 
-            if(currentQuestionIndex >= quizGame.pages.size()) {
-                gameManager.saveScores();
-                gameController.endQuiz();
-            }
-            else {
-                generateQuestionByQuestionIndex();
-            }
+        if(currentQuestionIndex >= quizGame.pages.size()) {
+            gameManager.saveScores();
+            gameController.endQuiz();
         }
-        catch (Exception e){
-            errorHandlerService.displayErrorMessage(e.getMessage());
+        else {
+            generateQuestionByQuestionIndex();
         }
     }
 

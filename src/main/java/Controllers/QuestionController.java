@@ -66,8 +66,9 @@ public class QuestionController {
     @FXML
     public void initialize() {
 
-        errorHandlerService = new ErrorHandlerService(errorLbl);
-        QuestionViewContext questionViewContext = new QuestionViewContext(
+        try {
+            errorHandlerService = new ErrorHandlerService(errorLbl);
+            QuestionViewContext questionViewContext = new QuestionViewContext(
                 radioQuizToggleGroup,
                 questionInputsHolder,
                 questionNameLbl,
@@ -75,9 +76,13 @@ public class QuestionController {
                 countdownLbl,
                 scoreLbl,
                 questionSubmitButton
-        );
+            );
 
-        questionService = new QuestionService(gameManager, gameController, questionViewFactory, questionViewContext, errorHandlerService);
-        questionService.generateQuestionByQuestionIndex();
+            questionService = new QuestionService(gameManager, gameController, questionViewFactory, questionViewContext);
+            questionService.generateQuestionByQuestionIndex();
+        }
+        catch (Exception e) {
+            errorHandlerService.displayErrorMessage(e.getMessage());
+        }
     }
 }

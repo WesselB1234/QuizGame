@@ -34,32 +34,43 @@ public class ResultsController implements IScoresUploadNotifier {
     @FXML
     protected void initialize() {
 
-        gameManager.subscribeNotifierToScoresObserver(this);
-        errorHandlerService = new ErrorHandlerService(errorLbl);
-        resultsService = new ResultsService(gameManager, resultsTableView, errorHandlerService);
+        try{
+            gameManager.subscribeNotifierToScoresObserver(this);
+            errorHandlerService = new ErrorHandlerService(errorLbl);
+            resultsService = new ResultsService(gameManager, resultsTableView);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        joinDateColumn.setCellFactory(column -> new TableCell<QuizPlayerData, LocalDateTime>() {
-            @Override
-            protected void updateItem(LocalDateTime item, boolean empty) {
+            joinDateColumn.setCellFactory(column -> new TableCell<QuizPlayerData, LocalDateTime>() {
+                @Override
+                protected void updateItem(LocalDateTime item, boolean empty) {
 
-                super.updateItem(item, empty);
+                    super.updateItem(item, empty);
 
-                if (empty || item == null) {
-                    setText(null);
+                    if (empty || item == null) {
+                        setText(null);
+                    }
+                    else {
+                        setText(item.format(formatter));
+                    }
                 }
-                else {
-                    setText(item.format(formatter));
-                }
-            }
-        });
+            });
 
-        resultsService.getAndPutScoresInTable();
+            resultsService.getAndPutScoresInTable();
+        }
+        catch (Exception e) {
+            errorHandlerService.displayErrorMessage(e.getMessage());
+        }
     }
 
     @Override
     public void onNotifyScoreUpload() {
-        resultsService.getAndPutScoresInTable();
+
+        try {
+            resultsService.getAndPutScoresInTable();
+        }
+        catch (Exception e) {
+            errorHandlerService.displayErrorMessage(e.getMessage());
+        }
     }
 }
