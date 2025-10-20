@@ -3,7 +3,6 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <VBox alignment="CENTER" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 
@@ -14,11 +13,7 @@
     <Label fx:id="scoreLbl" />
     <Label fx:id="countdownLbl" />
     <Label fx:id="errorLbl" styleClass="error-label" visible="false" />
-    <Label fx:id="questionNameLbl">
-        <font>
-            <Font size="18.0" />
-        </font>
-    </Label>
+    <Label styleClass="header-text" fx:id="questionNameLbl" />
 
     <VBox fx:id="questionInputsHolder" alignment="CENTER" spacing="10.0">
         <fx:define>

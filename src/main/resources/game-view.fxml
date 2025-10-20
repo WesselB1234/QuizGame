@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <?import javafx.geometry.Insets?>
 <VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
@@ -11,11 +10,7 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
 
-    <Label fx:id="quizNameLbl">
-        <font>
-            <Font size="18.0" />
-        </font>
-    </Label>
+    <Label styleClass="header-text" fx:id="quizNameLbl" />
     <Label fx:id="quizDescriptionLbl" />
 
     <VBox fx:id="layout" />

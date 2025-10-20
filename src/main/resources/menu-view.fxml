@@ -3,15 +3,10 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <VBox alignment="CENTER" prefHeight="234.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MenuController">
 
-    <Label fx:id="selectedQuizLbl" text="No quiz file selected">
-      <font>
-         <Font size="18.0" />
-      </font>
-   </Label>
+    <Label styleClass="header-text" fx:id="selectedQuizLbl" text="No quiz file selected" />
     <Label fx:id="quizDescriptionLbl" visible="false" />
     <Label fx:id="errorLbl" styleClass="error-label" visible="false" />
 
