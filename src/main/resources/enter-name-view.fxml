@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.text.Font?>
+<VBox fx:id="nameSelectorPage" alignment="CENTER" prefHeight="220.0" prefWidth="522.0" spacing="20" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 
-<VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:id="nameSelectorPage" alignment="CENTER" prefHeight="220.0" prefWidth="350.0" spacing="20.0">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        <Insets top="20.0" />
     </padding>
 
     <Label text="Enter your name to start">
@@ -16,7 +16,7 @@
             <Font size="18.0" />
         </font>
     </Label>
-    <Label fx:id="errorLbl" visible="false" />
+    <Label fx:id="errorLbl" styleClass="error-label"  visible="false" />
     <TextField fx:id="nameTextField" promptText="Your name" />
     <Button onAction="#onGameStart" text="Start" />
 </VBox>

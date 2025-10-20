@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.geometry.Insets?>
 <VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 
-    <Label fx:id="quizNameLbl" text="Quiz: ">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <Label fx:id="quizNameLbl">
         <font>
             <Font size="18.0" />
         </font>
     </Label>
-    <Label fx:id="quizDescriptionLbl" text="Quiz: " />
+    <Label fx:id="quizDescriptionLbl" />
 
-    <StackPane fx:id="layout">
-        <children></children>
-    </StackPane>
+    <VBox fx:id="layout" />
 </VBox>

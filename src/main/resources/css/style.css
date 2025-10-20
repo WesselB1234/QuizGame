@@ -1,0 +1,7 @@
+.header-text{
+    font-size: 18px;
+}
+
+.error-label{
+    -fx-text-fill: red;
+}

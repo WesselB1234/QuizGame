@@ -7,8 +7,11 @@ import Models.Context.QuestionViewContext;
 import Singletons.GameManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class QuestionService {
@@ -40,7 +43,16 @@ public class QuestionService {
 
         this.score = new SimpleIntegerProperty(0);
         score.set(0);
-        questionViewContext.scoreLbl.textProperty().bind(score.asString("Score: %d"));
+        questionViewContext.scoreLbl.textProperty().bind(score.asString("Correct answers: %d"));
+    }
+
+    private void setStageSizeBasedOnChildren(){
+
+        Platform.runLater(() -> {
+            Scene scene = questionViewContext.errorLbl.getScene();
+            Stage stage = (Stage) scene.getWindow();
+            stage.sizeToScene();
+        });
     }
 
     public void generateQuestionByQuestionIndex() throws Exception {
@@ -52,7 +64,7 @@ public class QuestionService {
         questionViewFactory.createNewQuestionView(currentQuestion, currentQuestionIndex, currentQuestionIndex + 1 == quizGame.pages.size(), questionViewContext);
 
         currentCountdown = currentPage.timeLimit;
-        questionViewContext.countdownLbl.setText(Integer.toString(currentCountdown));
+        questionViewContext.countdownLbl.setText("Time left: " + Integer.toString(currentCountdown));
 
         Timeline timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
@@ -61,7 +73,8 @@ public class QuestionService {
                 timeline.stop();
                 try {
                     switchToNewQuestion();
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -70,12 +83,14 @@ public class QuestionService {
             }
             else{
                 currentCountdown--;
-                questionViewContext.countdownLbl.setText(Integer.toString(currentCountdown));
+                questionViewContext.countdownLbl.setText("Time left: " + Integer.toString(currentCountdown));
             }
         }));
 
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+
+        setStageSizeBasedOnChildren();
     }
 
     public void switchToNewQuestion() throws Exception {

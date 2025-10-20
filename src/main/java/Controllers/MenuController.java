@@ -82,8 +82,7 @@ public class MenuController {
         Stage newStage = new Stage();
         newStage.setTitle("Game window");
         newStage.setScene(new Scene(root));
-        newStage.setWidth(900);
-        newStage.setHeight(500);
+        newStage.sizeToScene();
         newStage.show();
     }
 

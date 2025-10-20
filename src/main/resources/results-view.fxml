@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<VBox alignment="CENTER" prefHeight="220.0" prefWidth="350.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml">
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" minWidth="799.0" prefHeight="364.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets top="20.0" />
     </padding>
 
-    <Label text="Player Results" style="-fx-font-size: 18px;"/>
-    <Label fx:id="errorLbl" text="hi" visible="false" />
+    <Label style="-fx-font-size: 18px;" text="Player Results" />
+    <Label fx:id="errorLbl" styleClass="error-label" visible="false" />
 
-    <TableView fx:id="resultsTableView" prefHeight="343.0" prefWidth="700.0">
+    <TableView fx:id="resultsTableView" prefHeight="343.0">
         <columns>
-            <TableColumn prefWidth="200" text="Name">
+            <TableColumn prefWidth="200" text="Player name">
                 <cellValueFactory>
                     <PropertyValueFactory property="playerName" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn prefWidth="200" text="Answered">
+            <TableColumn prefWidth="200" text="Answered questions">
                 <cellValueFactory>
                     <PropertyValueFactory property="questionsAnswered" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn prefWidth="200" text="Score">
+            <TableColumn prefWidth="200" text="Correct answers">
                 <cellValueFactory>
                     <PropertyValueFactory property="correctQuestions" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn prefWidth="200" text="Join date" fx:id="joinDateColumn">
+            <TableColumn fx:id="joinDateColumn" prefWidth="200" text="Join date">
                 <cellValueFactory>
                     <PropertyValueFactory property="joinDate" />
                 </cellValueFactory>

@@ -5,20 +5,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="220.0" prefWidth="350.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MenuController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
+<VBox alignment="CENTER" prefHeight="234.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MenuController">
 
     <Label fx:id="selectedQuizLbl" text="No quiz file selected">
       <font>
          <Font size="18.0" />
       </font>
    </Label>
+    <Label fx:id="quizDescriptionLbl" visible="false" />
+    <Label fx:id="errorLbl" styleClass="error-label" visible="false" />
 
-    <Label fx:id="quizDescriptionLbl" visible="false"/>
-
-    <Label fx:id="errorLbl" text="Something went wrong" visible="false" />
     <Button onAction="#onFileSelectorClicked" text="Select a JSON quiz file">Select a file</Button>
-    <Button fx:id="quizStarterBtn" onAction="#onQuizStart" mnemonicParsing="false" text="Start Quiz" visible="false" />
+    <Button fx:id="quizStarterBtn" mnemonicParsing="false" onAction="#onQuizStart" text="Start Quiz" visible="false" />
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
 </VBox>
