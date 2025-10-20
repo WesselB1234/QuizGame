@@ -12,6 +12,7 @@
     </padding>
 
     <Label text="Player Results" style="-fx-font-size: 18px;"/>
+    <Label fx:id="errorLbl" text="hi" visible="false" />
 
     <TableView fx:id="resultsTableView" prefHeight="343.0" prefWidth="700.0">
         <columns>

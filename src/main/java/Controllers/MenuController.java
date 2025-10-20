@@ -29,23 +29,26 @@ public class MenuController {
     private Label errorLbl;
     @FXML
     private Button quizStarterBtn;
+
     private QuizGame quizGame;
     private GameManager gameManager;
+    private final String resultsFolderDir = "C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizResults\\";
 
-    private QuizGame getQuizGameFromJson(File file){
+    private QuizGame getQuizGameFromJson(File file) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
-        QuizGame quizGame = null;
-
-        try {
-            quizGame = mapper.readValue(file, QuizGame.class);
-            quizGame.quizId = generateQuizId();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        quizGame = mapper.readValue(file, QuizGame.class);
+        quizGame.quizId = generateQuizId();
 
         return quizGame;
+    }
+
+    private void displayErrorMessage(String errorMessage){
+
+        if (!errorLbl.isVisible()){
+            errorLbl.setVisible(true);
+        }
+        errorLbl.setText("An error has occurred: " + errorMessage);
     }
 
     private String generateQuizId(){
@@ -57,7 +60,7 @@ public class MenuController {
             quizId.append(Integer.toString(rand.nextInt(10)));
         }
 
-        Path path = Paths.get("C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizResults\\" + quizId + "_results.json");
+        Path path = Paths.get(resultsFolderDir + quizId + "-results.json");
 
         if (Files.exists(path)) {
             return generateQuizId();
@@ -78,26 +81,18 @@ public class MenuController {
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         File file = new File("C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizJson1.JSON");//fileChooser.showOpenDialog(stage);
 
-        if (file != null) {
+        try{
+            this.quizGame = getQuizGameFromJson(file);;
+            gameManager = new GameManager(quizGame, resultsFolderDir);
 
-            QuizGame quizGame = getQuizGameFromJson(file);
-
-            if(quizGame != null){
-
-                this.quizGame = quizGame;
-                gameManager = new GameManager(quizGame);
-
-                selectedQuizLbl.setText("Selected quiz: " + quizGame.title);
-                errorLbl.setVisible(false);
-                quizStarterBtn.setVisible(true);
-            }
-            else {
-                // REFACTOR THIS PLEASE WESSEL DON'T FORGET THIS
-                selectedQuizLbl.setText("No quiz selected.");
-                errorLbl.setText("Something went wrong selecting the quiz json file.");
-                errorLbl.setVisible(true);
-                quizStarterBtn.setVisible(false);
-            }
+            selectedQuizLbl.setText("Selected quiz: " + quizGame.title);
+            errorLbl.setVisible(false);
+            quizStarterBtn.setVisible(true);
+        }
+        catch(Exception e){
+            selectedQuizLbl.setText("No quiz selected.");
+            quizStarterBtn.setVisible(false);
+            displayErrorMessage(e.getMessage());
         }
     }
 

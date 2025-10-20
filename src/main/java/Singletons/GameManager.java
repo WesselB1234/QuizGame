@@ -16,12 +16,13 @@ import java.util.Random;
 
 public class GameManager {
 
-    private QuizGame quizGame;
-    private HashMap<String, QuizPlayerData> players = new HashMap<>();
-    private final String resultsJsonDir = "C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizResults\\";
+    private final QuizGame quizGame;
+    private final HashMap<String, QuizPlayerData> players = new HashMap<>();
+    private final String resultsJsonDir;
 
-    public GameManager (QuizGame quizGame) {
+    public GameManager (QuizGame quizGame, String resultsFolderDir) {
         this.quizGame = quizGame;
+        resultsJsonDir = resultsFolderDir + quizGame.quizId + "-results.json";
     }
 
     private String generatePlayerId(){
@@ -84,25 +85,19 @@ public class GameManager {
         return playerId;
     }
 
-    private void setPlayerDataManagerToJson(QuizPlayerDataManager dataManager){
+    private void setPlayerDataManagerToJson(QuizPlayerDataManager dataManager) throws  IOException{
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        String fileName = resultsJsonDir + quizGame.quizId + "-results.json";
 
-        try {
-            mapper.writeValue(new File(fileName), dataManager);
-            System.out.println("Scores saved to " + fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Failed to save quiz scores to JSON.");
-        }
+        mapper.writeValue(new File(resultsJsonDir), dataManager);
+        System.out.println("Scores saved to " + resultsJsonDir);
     }
 
-    public void saveScores(){
+    public void saveScores() throws IOException{
 
         QuizPlayerDataManager dataManager = new QuizPlayerDataManager();
         ArrayList<QuizPlayerData> quizPlayersData = new ArrayList<>(players.values());
@@ -114,13 +109,13 @@ public class GameManager {
         setPlayerDataManagerToJson(dataManager);
     }
 
-    public QuizPlayerDataManager getQuizPlayerDataManagerFromJson(String fileName) throws IOException{
+    public QuizPlayerDataManager getQuizPlayerDataManagerFromJson() throws IOException{
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        return mapper.readValue(new File(fileName), QuizPlayerDataManager.class);
+        return mapper.readValue(new File(resultsJsonDir), QuizPlayerDataManager.class);
     }
 
     public QuizGame getQuizGame() {

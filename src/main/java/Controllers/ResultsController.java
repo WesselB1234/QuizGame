@@ -7,6 +7,7 @@ import Singletons.GameManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -21,11 +22,12 @@ public class ResultsController {
     private TableView resultsTableView;
     @FXML
     private TableColumn joinDateColumn;
+    @FXML
+    private Label errorLbl;
 
     private QuizGame quizGame;
     private GameManager gameManager;
     private GameController gameController;
-    private final String resultsJsonDir = "C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizResults\\";
 
     public ResultsController(GameManager gameManager, GameController gameController) {
         this.gameManager = gameManager;
@@ -33,31 +35,42 @@ public class ResultsController {
         this.gameController = gameController;
     }
 
+    private void displayErrorMessage(String errorMessage){
+
+        if (!errorLbl.isVisible()){
+            errorLbl.setVisible(true);
+        }
+        errorLbl.setText("An error has occurred: " + errorMessage);
+    }
+
     @FXML
     protected void initialize() throws IOException {
 
-        String fileName = resultsJsonDir + quizGame.quizId + "-results.json";
+        try{
+            QuizPlayerDataManager dataManager = gameManager.getQuizPlayerDataManagerFromJson();
+            ObservableList<QuizPlayerData> playerScores = FXCollections.observableArrayList(dataManager.quizPlayersData);
 
-        QuizPlayerDataManager dataManager = gameManager.getQuizPlayerDataManagerFromJson(fileName);
-        ObservableList<QuizPlayerData> playerScores = FXCollections.observableArrayList(dataManager.quizPlayersData);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            joinDateColumn.setCellFactory(column -> new TableCell<QuizPlayerData, LocalDateTime>() {
+                @Override
+                protected void updateItem(LocalDateTime item, boolean empty) {
 
-        joinDateColumn.setCellFactory(column -> new TableCell<QuizPlayerData, LocalDateTime>() {
-            @Override
-            protected void updateItem(LocalDateTime item, boolean empty) {
+                    super.updateItem(item, empty);
 
-                super.updateItem(item, empty);
-
-                if (empty || item == null) {
-                    setText(null);
+                    if (empty || item == null) {
+                        setText(null);
+                    }
+                    else {
+                        setText(item.format(formatter));
+                    }
                 }
-                else {
-                    setText(item.format(formatter));
-                }
-            }
-        });
+            });
 
-        resultsTableView.setItems(playerScores);
+            resultsTableView.setItems(playerScores);
+        }
+        catch (Exception e){
+            displayErrorMessage(e.getMessage());
+        }
     }
 }

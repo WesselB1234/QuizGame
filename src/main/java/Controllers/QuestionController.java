@@ -91,19 +91,24 @@ public class QuestionController {
 
     private void switchToNewQuestion(){
 
-        errorLbl.setVisible(false);
-        currentQuestionIndex++;
+        try{
+            errorLbl.setVisible(false);
+            currentQuestionIndex++;
 
-        if(currentQuestionIndex >= quizGame.pages.size()) {
-            gameManager.saveScores();
-            gameController.endQuiz();
+            if(currentQuestionIndex >= quizGame.pages.size()) {
+                gameManager.saveScores();
+                gameController.endQuiz();
+            }
+            else {
+                generateQuestionByQuestionIndex();
+            }
         }
-        else {
-            generateQuestionByQuestionIndex();
+        catch (Exception e){
+            displayErrorMessage(e.getMessage());
         }
     }
 
-    private void makeError(String errorMessage){
+    private void displayErrorMessage(String errorMessage){
 
         if (!errorLbl.isVisible()){
             errorLbl.setVisible(true);
@@ -162,7 +167,7 @@ public class QuestionController {
             switchToNewQuestion();
         }
         catch (Exception e){
-            makeError(e.getMessage());
+            displayErrorMessage(e.getMessage());
         }
     }
 
