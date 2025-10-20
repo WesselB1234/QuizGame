@@ -7,6 +7,7 @@ module com.example.projectjavafundamentals {
     requires javafx.base;
     requires javafx.graphics;
     requires com.fasterxml.jackson.datatype.jsr310;
+    requires atlantafx.base;
 
     opens Models to com.fasterxml.jackson.databind, javafx.base;
 
