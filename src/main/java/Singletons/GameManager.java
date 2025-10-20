@@ -1,8 +1,10 @@
 package Singletons;
 
+import Controllers.Interfaces.IScoresUploadNotifier;
 import Models.QuizGame;
 import Models.QuizPlayerData;
 import Models.QuizPlayerDataManager;
+import Observers.ScoresUploadObserver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -19,6 +21,7 @@ public class GameManager {
     private final QuizGame quizGame;
     private final HashMap<String, QuizPlayerData> players = new HashMap<>();
     private final String resultsJsonDir;
+    private final ScoresUploadObserver scoresUploadObserver = new ScoresUploadObserver();
 
     public GameManager (QuizGame quizGame, String resultsFolderDir) {
         this.quizGame = quizGame;
@@ -85,16 +88,14 @@ public class GameManager {
         return playerId;
     }
 
-    private void setPlayerDataManagerToJson(QuizPlayerDataManager dataManager) throws  IOException{
+    private void setPlayerDataManagerToJson(QuizPlayerDataManager dataManager) throws IOException{
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-
         mapper.writeValue(new File(resultsJsonDir), dataManager);
-        System.out.println("Scores saved to " + resultsJsonDir);
     }
 
     public void saveScores() throws IOException{
@@ -107,6 +108,7 @@ public class GameManager {
         dataManager.quizPlayersData = quizPlayersData;
 
         setPlayerDataManagerToJson(dataManager);
+        scoresUploadObserver.notifyNotifiers();
     }
 
     public QuizPlayerDataManager getQuizPlayerDataManagerFromJson() throws IOException{
@@ -120,5 +122,9 @@ public class GameManager {
 
     public QuizGame getQuizGame() {
         return quizGame;
+    }
+
+    public void subscribeNotifierToScoresObserver(IScoresUploadNotifier notifier){
+        scoresUploadObserver.subscribeNotifier(notifier);
     }
 }
