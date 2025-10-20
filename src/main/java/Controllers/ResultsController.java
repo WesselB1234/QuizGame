@@ -26,17 +26,11 @@ public class ResultsController {
     @FXML
     private Label errorLbl;
 
-    private QuizGame quizGame;
     private GameManager gameManager;
-    private GameController gameController;
-
     private ErrorHandlerService errorHandlerService;
 
-    public ResultsController(GameManager gameManager, GameController gameController) {
-
+    public ResultsController(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.quizGame = this.gameManager.getQuizGame();
-        this.gameController = gameController;
     }
 
     @FXML

@@ -28,7 +28,7 @@ public class GameController {
     }
 
     public void endQuiz(){
-        gameService.loadScene("/results-view.fxml", new ResultsController(gameManager, this));
+        gameService.loadScene("/results-view.fxml", new ResultsController(gameManager));
     }
 
     public void startQuiz(){

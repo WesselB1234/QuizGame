@@ -9,21 +9,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class QuestionService {
 
-    private ToggleGroup radioQuizToggleGroup;
-    private VBox questionInputsHolder;
-    private Label questionNameLbl;
-    private Label errorLbl;
-    private Label countdownLbl;
-    private Label scoreLbl;
-    private Button questionSubmitButton;
+    private QuestionViewContext questionViewContext;
 
     private QuizGame quizGame;
     private GameManager gameManager;
@@ -40,26 +30,20 @@ public class QuestionService {
 
     public QuestionService(GameManager gameManager, GameController gameController, QuestionViewFactory questionViewFactory, QuestionViewContext questionViewContext, ErrorHandlerService errorHandlerService) {
 
+        this.questionViewContext = questionViewContext;
+
         this.gameManager = gameManager;
         this.quizGame = this.gameManager.getQuizGame();
         this.gameController = gameController;
         this.questionViewFactory = questionViewFactory;
         this.errorHandlerService = errorHandlerService;
 
-        radioQuizToggleGroup = questionViewContext.radioQuizToggleGroup;
-        questionInputsHolder = questionViewContext.questionInputsHolder;
-        questionNameLbl = questionViewContext.questionNameLbl;
-        errorLbl = questionViewContext.errorLbl;
-        countdownLbl = questionViewContext.countdownLbl;
-        scoreLbl = questionViewContext.scoreLbl;
-        questionSubmitButton = questionViewContext.questionSubmitButton;
-
         this.currentQuestionIndex = 0;
         this.currentCountdown = 0;
 
         this.score = new SimpleIntegerProperty(0);
         score.set(0);
-        scoreLbl.textProperty().bind(score.asString("Score: %d"));
+        questionViewContext.scoreLbl.textProperty().bind(score.asString("Score: %d"));
     }
 
     public void generateQuestionByQuestionIndex(){
@@ -68,11 +52,10 @@ public class QuestionService {
 
         currentPage = quizGame.pages.get(currentQuestionIndex);
         currentQuestion = currentPage.pageElement;
-        questionViewFactory.createNewQuestionView(currentQuestion, radioQuizToggleGroup, questionInputsHolder, questionNameLbl, currentQuestionIndex,
-                currentQuestionIndex + 1 == quizGame.pages.size(), questionSubmitButton);
+        questionViewFactory.createNewQuestionView(currentQuestion, currentQuestionIndex, currentQuestionIndex + 1 == quizGame.pages.size(), questionViewContext);
 
         currentCountdown = currentPage.timeLimit;
-        countdownLbl.setText(Integer.toString(currentCountdown));
+        questionViewContext.countdownLbl.setText(Integer.toString(currentCountdown));
 
         Timeline timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
@@ -86,7 +69,7 @@ public class QuestionService {
             }
             else{
                 currentCountdown--;
-                countdownLbl.setText(Integer.toString(currentCountdown));
+                questionViewContext.countdownLbl.setText(Integer.toString(currentCountdown));
             }
         }));
 
@@ -97,7 +80,7 @@ public class QuestionService {
     public void switchToNewQuestion(){
 
         try{
-            errorLbl.setVisible(false);
+            questionViewContext.errorLbl.setVisible(false);
             currentQuestionIndex++;
 
             if(currentQuestionIndex >= quizGame.pages.size()) {
