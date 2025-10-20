@@ -14,6 +14,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import javafx.scene.Node;
 import javafx.fxml.FXML;
@@ -31,13 +32,17 @@ public class MenuController {
 
     private QuizGame quizGame;
     private GameManager gameManager;
-    private final String resultsFolderDir = "C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizResults\\";
+    private String resultsFolderDir;
 
     private ErrorHandlerService errorHandlerService;
     private MenuService menuService;
 
     public MenuController(){
+
         menuService = new MenuService(resultsFolderDir);
+
+        String projectRoot = System.getProperty("user.dir");
+        resultsFolderDir = projectRoot + "\\src\\main\\JSONs\\QuizResults\\";
     }
 
     @FXML
@@ -50,8 +55,8 @@ public class MenuController {
         );
 
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        //File file = fileChooser.showOpenDialog(stage);
-        File file = new File("C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizJson1.JSON");
+        File file = fileChooser.showOpenDialog(stage);
+        //File file = new File("C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizJson1.JSON");
         try{
             this.quizGame = menuService.getQuizGameFromJson(file);;
             gameManager = new GameManager(quizGame, resultsFolderDir);

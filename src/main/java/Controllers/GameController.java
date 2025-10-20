@@ -6,7 +6,6 @@ import Services.GameService;
 import Singletons.GameManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class GameController {
