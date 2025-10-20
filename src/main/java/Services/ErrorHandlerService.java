@@ -9,8 +9,6 @@ public class ErrorHandlerService {
 
     public ErrorHandlerService(Label errorLbl) {
         this.errorLbl = errorLbl;
-
-        System.out.println(errorLbl);
     }
 
     public void displayErrorMessage(String errorMessage){

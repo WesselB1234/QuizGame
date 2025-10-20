@@ -20,7 +20,7 @@ public class GameController {
         this.gameManager = gameManager;
     }
 
-    public void loadScene(String name, Object controller) {
+    private void loadScene(String name, Object controller) {
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(name));
