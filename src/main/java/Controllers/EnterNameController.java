@@ -12,8 +12,6 @@ public class EnterNameController {
     @FXML
     private Label errorLbl;
     @FXML
-    private Label quizNameLbl;
-    @FXML
     private TextField nameTextField;
 
     private QuizGame quizGame;
@@ -51,9 +49,6 @@ public class EnterNameController {
 
     @FXML
     public void initialize() {
-
         errorHandlerService = new ErrorHandlerService(errorLbl);
-
-        quizNameLbl.setText("Quiz: " + quizGame.title);
     }
 }

@@ -11,11 +11,6 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
 
-    <Label fx:id="quizNameLbl" text="Quiz: ">
-        <font>
-            <Font size="18.0" />
-        </font>
-    </Label>
     <Label text="Enter your name to start">
         <font>
             <Font size="18.0" />

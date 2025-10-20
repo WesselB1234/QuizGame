@@ -23,6 +23,8 @@ public class MenuController {
     @FXML
     private Label selectedQuizLbl;
     @FXML
+    private Label quizDescriptionLbl;
+    @FXML
     private Label errorLbl;
     @FXML
     private Button quizStarterBtn;
@@ -48,18 +50,21 @@ public class MenuController {
         );
 
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        File file = fileChooser.showOpenDialog(stage);
-        //File file = new File("C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizJson1.JSON");
+        //File file = fileChooser.showOpenDialog(stage);
+        File file = new File("C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizJson1.JSON");
         try{
             this.quizGame = menuService.getQuizGameFromJson(file);;
             gameManager = new GameManager(quizGame, resultsFolderDir);
 
             selectedQuizLbl.setText("Selected quiz: " + quizGame.title);
+            quizDescriptionLbl.setVisible(true);
+            quizDescriptionLbl.setText("Description: " + quizGame.description);
             errorLbl.setVisible(false);
             quizStarterBtn.setVisible(true);
         }
         catch(Exception e){
             selectedQuizLbl.setText("No quiz selected.");
+            quizDescriptionLbl.setVisible(false);
             quizStarterBtn.setVisible(false);
             errorHandlerService.displayErrorMessage(e.getMessage());
         }

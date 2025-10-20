@@ -1,22 +1,31 @@
 package Controllers;
 
 import Factories.QuestionViewFactory;
+import Models.QuizGame;
 import Services.GameService;
 import Singletons.GameManager;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
 public class GameController {
 
     @FXML
     private StackPane layout;
+    @FXML
+    private Label quizNameLbl;
+    @FXML
+    private Label quizDescriptionLbl;
+
     private GameManager gameManager;
     private String playerUserId;
 
     private GameService gameService;
+    private QuizGame quizGame;
 
     public GameController (GameManager gameManager) {
         this.gameManager = gameManager;
+        quizGame = gameManager.getQuizGame();
     }
 
     public void setPlayerUserId(String playerUserId){
@@ -43,6 +52,9 @@ public class GameController {
     public void initialize() {
 
         gameService = new GameService(layout);
+
+        quizNameLbl.setText("Quiz: " + quizGame.title);
+        quizDescriptionLbl.setText("Description: " + quizGame.description);
 
         startEnterName();
     }
