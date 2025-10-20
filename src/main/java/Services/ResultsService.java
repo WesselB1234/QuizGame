@@ -7,6 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
 public class ResultsService {
 
     private GameManager gameManager;
@@ -20,6 +23,7 @@ public class ResultsService {
     public void getAndPutScoresInTable() throws Exception{
 
         QuizPlayerDataManager dataManager = gameManager.getQuizPlayerDataManagerFromJson();
+        dataManager.quizPlayersData.sort(Comparator.comparingInt(QuizPlayerData::getCorrectQuestions).reversed());
         ObservableList<QuizPlayerData> playerScores = FXCollections.observableArrayList(dataManager.quizPlayersData);
 
         resultsTableView.setItems(playerScores);
