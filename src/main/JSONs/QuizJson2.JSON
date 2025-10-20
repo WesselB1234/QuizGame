@@ -1,0 +1,31 @@
+{
+  "type": "quizGame",
+  "title": "Evil java Basics Quiz",
+  "description": "A long quiz to forget your knowledge of Evil Java fundamentals.",
+  "pages": [
+    {
+      "type": "page",
+      "timeLimit": 15,
+      "pageElement": {
+          "type": "radiogroup",
+          "title": "Which money hungry company originally developed Evil Java?",
+          "choices": [
+            "Microsoft",
+            "Sun Microsystems >:)",
+            "Apple",
+            "Google"
+          ],
+          "correctAnswer": 1
+        }
+    },
+    {
+      "type": "page",
+      "timeLimit": 10,
+      "pageElement": {
+        "type": "boolean",
+        "title": "Java is not a statically typed programming language.",
+        "correctAnswer": false
+      }
+    }
+  ]
+}
