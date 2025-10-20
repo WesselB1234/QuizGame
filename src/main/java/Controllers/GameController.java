@@ -1,13 +1,10 @@
 package Controllers;
 
 import Factories.QuestionViewFactory;
+import Services.GameService;
 import Singletons.GameManager;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
-
-import java.io.IOException;
 
 public class GameController {
 
@@ -16,24 +13,10 @@ public class GameController {
     private GameManager gameManager;
     private String playerUserId;
 
+    private GameService gameService;
+
     public GameController (GameManager gameManager) {
         this.gameManager = gameManager;
-    }
-
-    private void loadScene(String name, Object controller) {
-
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(name));
-            fxmlLoader.setController(controller);
-
-            Parent newContent = fxmlLoader.load();
-
-            layout.getChildren().clear();
-            layout.getChildren().add(newContent);
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void setPlayerUserId(String playerUserId){
@@ -45,19 +28,22 @@ public class GameController {
     }
 
     public void endQuiz(){
-        loadScene("/results-view.fxml", new ResultsController(gameManager, this));
+        gameService.loadScene("/results-view.fxml", new ResultsController(gameManager, this));
     }
 
     public void startQuiz(){
-        loadScene("/question-view.fxml", new QuestionController(gameManager, this, new QuestionViewFactory()));
+        gameService.loadScene("/question-view.fxml", new QuestionController(gameManager, this, new QuestionViewFactory()));
     }
 
     public void startEnterName(){
-        loadScene("/enter-name-view.fxml", new EnterNameController(gameManager, this));
+        gameService.loadScene("/enter-name-view.fxml", new EnterNameController(gameManager, this));
     }
 
     @FXML
     public void initialize() {
+
+        gameService = new GameService(layout);
+
         startEnterName();
     }
 }

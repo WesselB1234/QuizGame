@@ -2,8 +2,8 @@ package Controllers;
 
 import Models.QuizGame;
 import Services.ErrorHandlerService;
+import Services.MenuService;
 import Singletons.GameManager;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,10 +14,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Random;
 
 import javafx.scene.Node;
 import javafx.fxml.FXML;
@@ -36,32 +32,10 @@ public class MenuController {
     private final String resultsFolderDir = "C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizResults\\";
 
     private ErrorHandlerService errorHandlerService;
+    private MenuService menuService;
 
-    private QuizGame getQuizGameFromJson(File file) throws IOException {
-
-        ObjectMapper mapper = new ObjectMapper();
-        quizGame = mapper.readValue(file, QuizGame.class);
-        quizGame.quizId = generateQuizId();
-
-        return quizGame;
-    }
-
-    private String generateQuizId(){
-
-        Random rand = new Random();
-        StringBuilder quizId = new StringBuilder();
-
-        for(int i = 0; i < 5; i++){
-            quizId.append(Integer.toString(rand.nextInt(10)));
-        }
-
-        Path path = Paths.get(resultsFolderDir + quizId + "-results.json");
-
-        if (Files.exists(path)) {
-            return generateQuizId();
-        }
-
-        return quizId.toString();
+    public MenuController(){
+        menuService = new MenuService(resultsFolderDir);
     }
 
     @FXML
@@ -74,10 +48,10 @@ public class MenuController {
         );
 
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        File file = new File("C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizJson1.JSON");//fileChooser.showOpenDialog(stage);
-
+        File file = fileChooser.showOpenDialog(stage);
+        //File file = new File("C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizJson1.JSON");
         try{
-            this.quizGame = getQuizGameFromJson(file);;
+            this.quizGame = menuService.getQuizGameFromJson(file);;
             gameManager = new GameManager(quizGame, resultsFolderDir);
 
             selectedQuizLbl.setText("Selected quiz: " + quizGame.title);
