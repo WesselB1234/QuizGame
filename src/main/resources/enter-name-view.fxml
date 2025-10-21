@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="nameSelectorPage" alignment="CENTER" prefHeight="220.0" prefWidth="522.0" spacing="20" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="nameSelectorPage" alignment="CENTER" prefHeight="150.0" prefWidth="522.0" spacing="20" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 
     <padding>
         <Insets top="20.0" />

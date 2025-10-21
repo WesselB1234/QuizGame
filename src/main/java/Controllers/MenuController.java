@@ -55,7 +55,7 @@ public class MenuController {
 
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         File file = fileChooser.showOpenDialog(stage);
-        //File file = new File("C:\\Development\\ProjectJavaFundamentals\\src\\main\\JSONs\\QuizJson1.JSON");
+        
         try{
             this.quizGame = menuService.getQuizGameFromJson(file);;
             gameManager = new GameManager(quizGame, resultsFolderDir);
@@ -70,7 +70,13 @@ public class MenuController {
             selectedQuizLbl.setText("No quiz selected.");
             quizDescriptionLbl.setVisible(false);
             quizStarterBtn.setVisible(false);
-            errorHandlerService.displayErrorMessage(e.getMessage());
+
+            if(e instanceof IOException){
+                errorHandlerService.displayErrorMessage("The file that was selected is not a valid quizGame file.");
+            }
+            else {
+                errorHandlerService.displayErrorMessage(e.getMessage());
+            }
         }
     }
 
