@@ -8,10 +8,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class GameService {
 
-    private VBox layout;
+    private final VBox layout;
 
     public GameService(VBox layout){
         this.layout = layout;
@@ -30,7 +31,7 @@ public class GameService {
 
             Platform.runLater(() -> {
                 Scene scene = layout.getScene();
-                scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+                scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/style.css")).toExternalForm());
                 Stage stage = (Stage) scene.getWindow();
                 stage.sizeToScene();
             });

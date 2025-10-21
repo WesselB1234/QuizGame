@@ -4,7 +4,7 @@ import javafx.scene.control.Label;
 
 public class ErrorHandlerService {
 
-    private Label errorLbl;
+    private final Label errorLbl;
 
     public ErrorHandlerService(Label errorLbl) {
         this.errorLbl = errorLbl;

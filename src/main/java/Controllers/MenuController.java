@@ -29,19 +29,18 @@ public class MenuController {
     @FXML
     private Button quizStarterBtn;
 
-    private QuizGame quizGame;
     private GameManager gameManager;
-    private String resultsFolderDir;
+    private final String resultsFolderDir;
 
     private ErrorHandlerService errorHandlerService;
-    private MenuService menuService;
+    private final MenuService menuService;
 
     public MenuController(){
 
-        menuService = new MenuService(resultsFolderDir);
-
         String projectRoot = System.getProperty("user.dir");
         resultsFolderDir = projectRoot + "\\src\\main\\JSONs\\QuizResults\\";
+
+        menuService = new MenuService(resultsFolderDir);
     }
 
     @FXML
@@ -57,7 +56,7 @@ public class MenuController {
         File file = fileChooser.showOpenDialog(stage);
         
         try{
-            this.quizGame = menuService.getQuizGameFromJson(file);;
+            QuizGame quizGame = menuService.getQuizGameFromJson(file);
             gameManager = new GameManager(quizGame, resultsFolderDir);
 
             selectedQuizLbl.setText("Selected quiz: " + quizGame.title);

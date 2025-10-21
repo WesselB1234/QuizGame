@@ -17,13 +17,13 @@ import java.time.format.DateTimeFormatter;
 public class ResultsController implements IScoresUploadNotifier {
 
     @FXML
-    private TableView resultsTableView;
+    private TableView<QuizPlayerData> resultsTableView;
     @FXML
-    private TableColumn joinDateColumn;
+    private TableColumn<QuizPlayerData, LocalDateTime> joinDateColumn;
     @FXML
     private Label errorLbl;
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
     private ErrorHandlerService errorHandlerService;
     private ResultsService resultsService;
 

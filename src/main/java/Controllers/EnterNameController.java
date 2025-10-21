@@ -14,9 +14,9 @@ public class EnterNameController {
     @FXML
     private TextField nameTextField;
 
-    private QuizGame quizGame;
+    private final QuizGame quizGame;
     private GameManager gameManager;
-    private GameController gameController;
+    private final GameController gameController;
 
     private ErrorHandlerService errorHandlerService;
 

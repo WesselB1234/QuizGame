@@ -17,11 +17,11 @@ public class GameController {
     @FXML
     private Label quizDescriptionLbl;
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
     private String playerUserId;
 
     private GameService gameService;
-    private QuizGame quizGame;
+    private final QuizGame quizGame;
 
     public GameController (GameManager gameManager) {
         this.gameManager = gameManager;

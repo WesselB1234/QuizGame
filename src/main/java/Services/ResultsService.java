@@ -11,8 +11,8 @@ import java.util.Comparator;
 
 public class ResultsService {
 
-    private GameManager gameManager;
-    private TableView<QuizPlayerData> resultsTableView;
+    private final GameManager gameManager;
+    private final TableView<QuizPlayerData> resultsTableView;
 
     public ResultsService(GameManager gameManager, TableView<QuizPlayerData> resultsTableView) {
         this.gameManager = gameManager;

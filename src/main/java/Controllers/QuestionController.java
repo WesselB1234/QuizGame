@@ -30,9 +30,9 @@ public class QuestionController {
     @FXML
     private Button questionSubmitButton;
 
-    private GameManager gameManager;
-    private GameController gameController;
-    private QuestionViewFactory questionViewFactory;
+    private final GameManager gameManager;
+    private final GameController gameController;
+    private final QuestionViewFactory questionViewFactory;
 
     private ErrorHandlerService errorHandlerService;
     private QuestionService questionService;

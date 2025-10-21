@@ -16,17 +16,18 @@ import javafx.util.Duration;
 
 public class QuestionService {
 
-    private QuestionViewContext questionViewContext;
+    private final QuestionViewContext questionViewContext;
 
-    private QuizGame quizGame;
-    private GameManager gameManager;
-    private GameController gameController;
-    private QuestionViewFactory questionViewFactory;
+    private final QuizGame quizGame;
+    private final GameManager gameManager;
+    private final GameController gameController;
+    private final QuestionViewFactory questionViewFactory;
+
+    private final IntegerProperty score;
 
     private Integer currentQuestionIndex;
     private PageElement currentQuestion;
     private Integer currentCountdown;
-    private IntegerProperty score;
     private Page currentPage;
 
     public QuestionService(GameManager gameManager, GameController gameController, QuestionViewFactory questionViewFactory, QuestionViewContext questionViewContext) {
