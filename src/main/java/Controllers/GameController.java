@@ -1,6 +1,6 @@
 package Controllers;
 
-import Factories.QuestionViewFactory;
+import Factories.QuestionInputsFactory;
 import Models.QuizGame;
 import Services.GameService;
 import Singletons.GameManager;
@@ -41,7 +41,7 @@ public class GameController {
     }
 
     public void startQuiz(){
-        gameService.loadScene("/question-view.fxml", new QuestionController(gameManager, this, new QuestionViewFactory()));
+        gameService.loadScene("/question-view.fxml", new QuestionController(gameManager, this, new QuestionInputsFactory()));
     }
 
     public void startEnterName(){

@@ -1,7 +1,6 @@
 package Controllers;
 
-import Factories.QuestionViewFactory;
-import Models.*;
+import Factories.QuestionInputsFactory;
 import Models.Context.QuestionViewContext;
 import Services.ErrorHandlerService;
 import Services.QuestionService;
@@ -32,15 +31,15 @@ public class QuestionController {
 
     private final GameManager gameManager;
     private final GameController gameController;
-    private final QuestionViewFactory questionViewFactory;
+    private final QuestionInputsFactory questionInputsFactory;
 
     private ErrorHandlerService errorHandlerService;
     private QuestionService questionService;
 
-    public QuestionController(GameManager gameManager, GameController gameController, QuestionViewFactory questionViewFactory) {
+    public QuestionController(GameManager gameManager, GameController gameController, QuestionInputsFactory questionInputsFactory) {
         this.gameManager = gameManager;
         this.gameController = gameController;
-        this.questionViewFactory = questionViewFactory;
+        this.questionInputsFactory = questionInputsFactory;
     }
 
     @FXML
@@ -78,7 +77,7 @@ public class QuestionController {
                 questionSubmitButton
             );
 
-            questionService = new QuestionService(gameManager, gameController, questionViewFactory, questionViewContext);
+            questionService = new QuestionService(gameManager, gameController, questionInputsFactory, questionViewContext);
             questionService.generateQuestionByQuestionIndex();
         }
         catch (Exception e) {

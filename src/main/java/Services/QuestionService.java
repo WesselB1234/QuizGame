@@ -1,7 +1,7 @@
 package Services;
 
 import Controllers.GameController;
-import Factories.QuestionViewFactory;
+import Factories.QuestionInputsFactory;
 import Models.*;
 import Models.Context.QuestionViewContext;
 import Singletons.GameManager;
@@ -11,8 +11,11 @@ import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Scene;
+import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.util.ArrayList;
 
 public class QuestionService {
 
@@ -21,7 +24,7 @@ public class QuestionService {
     private final QuizGame quizGame;
     private final GameManager gameManager;
     private final GameController gameController;
-    private final QuestionViewFactory questionViewFactory;
+    private final QuestionInputsFactory questionInputsFactory;
 
     private final IntegerProperty score;
 
@@ -30,14 +33,14 @@ public class QuestionService {
     private Integer currentCountdown;
     private Page currentPage;
 
-    public QuestionService(GameManager gameManager, GameController gameController, QuestionViewFactory questionViewFactory, QuestionViewContext questionViewContext) {
+    public QuestionService(GameManager gameManager, GameController gameController, QuestionInputsFactory questionInputsFactory, QuestionViewContext questionViewContext) {
 
         this.questionViewContext = questionViewContext;
 
         this.gameManager = gameManager;
         this.quizGame = this.gameManager.getQuizGame();
         this.gameController = gameController;
-        this.questionViewFactory = questionViewFactory;
+        this.questionInputsFactory = questionInputsFactory;
 
         this.currentQuestionIndex = 0;
         this.currentCountdown = 0;
@@ -56,16 +59,45 @@ public class QuestionService {
         });
     }
 
+    private void createAnswerInputsByCurrentQuestion(){
+
+        ArrayList<RadioButton> radioButtons = questionInputsFactory.createAnswerInputsListByQuestion(currentQuestion);
+
+        for (RadioButton radioButton : radioButtons) {
+            radioButton.setToggleGroup(questionViewContext.radioQuizToggleGroup);
+            questionViewContext.questionInputsHolder.getChildren().add(radioButton);
+        }
+    }
+
+    private void configureQuestionViewObjects(){
+
+        questionViewContext.radioQuizToggleGroup.selectToggle(null);
+        questionViewContext.questionInputsHolder.getChildren().clear();
+        questionViewContext.questionNameLbl.setText("Question " + (currentQuestionIndex + 1) + ": " + currentQuestion.title);
+
+        String submitQuestionBtnTxt = "Submit question";
+
+        if (currentQuestionIndex + 1 == quizGame.pages.size()) {
+            questionViewContext.questionSubmitButton.setText("Finish quiz");
+        }
+        else if (!questionViewContext.questionSubmitButton.getText().equals(submitQuestionBtnTxt)) {
+            questionViewContext.questionSubmitButton.setText(submitQuestionBtnTxt);
+        }
+
+        questionViewContext.countdownLbl.setText("Time left: " + Integer.toString(currentCountdown));
+
+        createAnswerInputsByCurrentQuestion();
+    }
+
     public void generateQuestionByQuestionIndex() throws Exception {
 
         Integer questionIndexAtMethodCall = currentQuestionIndex;
 
         currentPage = quizGame.pages.get(currentQuestionIndex);
         currentQuestion = currentPage.pageElement;
-        questionViewFactory.createNewQuestionView(currentQuestion, currentQuestionIndex, currentQuestionIndex + 1 == quizGame.pages.size(), questionViewContext);
-
         currentCountdown = currentPage.timeLimit;
-        questionViewContext.countdownLbl.setText("Time left: " + Integer.toString(currentCountdown));
+
+        configureQuestionViewObjects();
 
         Timeline timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
@@ -81,7 +113,7 @@ public class QuestionService {
             }
             else if (!currentQuestionIndex.equals(questionIndexAtMethodCall) || currentCountdown <= 0){
                 timeline.stop();
-            }
+             }
             else{
                 currentCountdown--;
                 questionViewContext.countdownLbl.setText("Time left: " + Integer.toString(currentCountdown));

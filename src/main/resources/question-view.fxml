@@ -15,11 +15,11 @@
     <Label fx:id="errorLbl" styleClass="error-label" visible="false" />
     <Label styleClass="header-text" fx:id="questionNameLbl" />
 
-    <VBox fx:id="questionInputsHolder" alignment="CENTER" spacing="10.0">
-        <fx:define>
-            <ToggleGroup fx:id="radioQuizToggleGroup" />
-        </fx:define>
+    <fx:define>
+        <ToggleGroup fx:id="radioQuizToggleGroup" />
+    </fx:define>
 
+    <VBox fx:id="questionInputsHolder" alignment="CENTER" spacing="10.0">
         <children>
             <RadioButton text="Option A" toggleGroup="$radioQuizToggleGroup" userData="0" />
             <RadioButton text="Option B" toggleGroup="$radioQuizToggleGroup" userData="1" />
