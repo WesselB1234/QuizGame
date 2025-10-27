@@ -40,4 +40,17 @@ public class GameService {
             throw new RuntimeException(e);
         }
     }
+
+    public void closeStage(){
+
+        Platform.runLater(() -> {
+            Scene scene = layout.getScene();
+            if (scene != null) {
+                Stage stage = (Stage) scene.getWindow();
+                if (stage != null) {
+                    stage.close();
+                }
+            }
+        });
+    }
 }

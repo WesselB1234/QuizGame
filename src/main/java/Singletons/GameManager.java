@@ -24,6 +24,7 @@ public class GameManager {
     private final String resultsJsonDir;
     private final String resultsCsvDir;
     private final ScoresUploadObserver scoresUploadObserver = new ScoresUploadObserver();
+    private Boolean isPracticeMode;
 
     public GameManager (QuizGame quizGame, String resultsFolderDir) {
         this.quizGame = quizGame;
@@ -153,6 +154,14 @@ public class GameManager {
 
     public QuizGame getQuizGame() {
         return quizGame;
+    }
+
+    public void setPracticeMode(boolean isPracticeMode){
+        this.isPracticeMode = isPracticeMode;
+    }
+
+    public boolean getIsPracticeMode(){
+        return isPracticeMode;
     }
 
     public void subscribeNotifierToScoresObserver(IScoresUploadNotifier notifier){

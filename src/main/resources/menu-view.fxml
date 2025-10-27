@@ -11,7 +11,8 @@
     <Label fx:id="errorLbl" styleClass="error-label" visible="false" />
 
     <Button onAction="#onFileSelectorClicked" text="Select a JSON quiz file">Select a file</Button>
-    <Button fx:id="quizStarterBtn" mnemonicParsing="false" onAction="#onQuizStart" text="Start Quiz" visible="false" />
+    <Button fx:id="quizStarterBtn" onAction="#onQuizStart" text="Start quiz" visible="false" />
+    <Button fx:id="quizPracticeStarterBtn" onAction="#onQuizStartPracticeMode" text="Start quiz practice" visible="false" />
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>

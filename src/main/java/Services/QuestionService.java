@@ -22,6 +22,8 @@ public class QuestionService {
     private final QuestionViewContext questionViewContext;
 
     private final QuizGame quizGame;
+    private final Boolean isPracticeMode;
+
     private final GameManager gameManager;
     private final GameController gameController;
     private final QuestionInputsFactory questionInputsFactory;
@@ -38,7 +40,9 @@ public class QuestionService {
         this.questionViewContext = questionViewContext;
 
         this.gameManager = gameManager;
-        this.quizGame = this.gameManager.getQuizGame();
+        quizGame = this.gameManager.getQuizGame();
+        isPracticeMode = this.gameManager.getIsPracticeMode();
+
         this.gameController = gameController;
         this.questionInputsFactory = questionInputsFactory;
 
@@ -99,29 +103,31 @@ public class QuestionService {
 
         configureQuestionViewObjects();
 
-        Timeline timeline = new Timeline();
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
+        if (isPracticeMode.equals(false)){
+            Timeline timeline = new Timeline();
+            timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), event -> {
 
-            if(currentQuestionIndex.equals(questionIndexAtMethodCall) && currentCountdown <= 0){
-                timeline.stop();
-                try {
-                    switchToNewQuestion();
+                if(currentQuestionIndex.equals(questionIndexAtMethodCall) && currentCountdown <= 0){
+                    timeline.stop();
+                    try {
+                        switchToNewQuestion();
+                    }
+                    catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-                catch (Exception e) {
-                    throw new RuntimeException(e);
+                else if (!currentQuestionIndex.equals(questionIndexAtMethodCall) || currentCountdown <= 0){
+                    timeline.stop();
                 }
-            }
-            else if (!currentQuestionIndex.equals(questionIndexAtMethodCall) || currentCountdown <= 0){
-                timeline.stop();
-             }
-            else{
-                currentCountdown--;
-                questionViewContext.countdownLbl.setText("Time left: " + Integer.toString(currentCountdown));
-            }
-        }));
+                else{
+                    currentCountdown--;
+                    questionViewContext.countdownLbl.setText("Time left: " + Integer.toString(currentCountdown));
+                }
+            }));
 
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.play();
+        }
 
         setStageSizeBasedOnChildren();
     }
@@ -132,7 +138,12 @@ public class QuestionService {
         currentQuestionIndex++;
 
         if(currentQuestionIndex >= quizGame.pages.size()) {
-            gameManager.saveScores();
+
+            if(isPracticeMode.equals(false)){
+                System.out.println("saving");
+                gameManager.saveScores();
+            }
+
             gameController.endQuiz();
         }
         else {

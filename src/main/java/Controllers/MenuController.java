@@ -28,6 +28,8 @@ public class MenuController {
     private Label errorLbl;
     @FXML
     private Button quizStarterBtn;
+    @FXML
+    private Button quizPracticeStarterBtn;
 
     private GameManager gameManager;
     private final String resultsFolderDir;
@@ -64,11 +66,13 @@ public class MenuController {
             quizDescriptionLbl.setText("Description: " + quizGame.description);
             errorLbl.setVisible(false);
             quizStarterBtn.setVisible(true);
+            quizPracticeStarterBtn.setVisible(true);
         }
         catch(Exception e){
             selectedQuizLbl.setText("No quiz selected.");
             quizDescriptionLbl.setVisible(false);
             quizStarterBtn.setVisible(false);
+            quizPracticeStarterBtn.setVisible(false);
 
             if(e instanceof IOException){
                 errorHandlerService.displayErrorMessage("The file that was selected is not a valid quizGame file.");
@@ -79,10 +83,12 @@ public class MenuController {
         }
     }
 
-    @FXML
-    protected void onQuizStart(ActionEvent event) throws IOException {
+    private void startQuizWindow(boolean isPracticeMode) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/game-view.fxml"));
+
+        gameManager.setPracticeMode(isPracticeMode);
+
         GameController gameController = new GameController(gameManager);
         loader.setController(gameController);
 
@@ -93,6 +99,16 @@ public class MenuController {
         newStage.setScene(new Scene(root));
         newStage.sizeToScene();
         newStage.show();
+    }
+
+    @FXML
+    protected void onQuizStart() throws IOException {
+        startQuizWindow(false);
+    }
+
+    @FXML
+    protected void onQuizStartPracticeMode() throws IOException {
+        startQuizWindow(true);
     }
 
     @FXML

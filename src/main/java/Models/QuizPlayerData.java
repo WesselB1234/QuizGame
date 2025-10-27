@@ -44,6 +44,11 @@ public class QuizPlayerData {
     }
 
     public Integer getScoreInPercentage() {
+
+        if (correctQuestions == 0 || questionsAnswered == 0){
+            return 0;
+        }
+
         return (int)(double) correctQuestions / questionsAnswered * 100;
     }
 

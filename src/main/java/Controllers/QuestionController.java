@@ -77,6 +77,8 @@ public class QuestionController {
                 questionSubmitButton
             );
 
+            countdownLbl.setVisible(!gameManager.getIsPracticeMode());
+
             questionService = new QuestionService(gameManager, gameController, questionInputsFactory, questionViewContext);
             questionService.generateQuestionByQuestionIndex();
         }

@@ -37,7 +37,13 @@ public class GameController {
     }
 
     public void endQuiz(){
-        gameService.loadScene("/results-view.fxml", new ResultsController(gameManager));
+
+        if(gameManager.getIsPracticeMode()){
+            gameService.closeStage();
+        }
+        else {
+            gameService.loadScene("/results-view.fxml", new ResultsController(gameManager));
+        }
     }
 
     public void startQuiz(){
