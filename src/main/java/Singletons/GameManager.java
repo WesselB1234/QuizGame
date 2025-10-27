@@ -105,13 +105,23 @@ public class GameManager {
 
         try (FileWriter writer = new FileWriter(resultsCsvDir)) {
 
-            writer.write("Name" + "\n");
+            QuizPlayerDataManager dataManager = getQuizPlayerDataManagerFromJson();
 
-            for (QuizPlayerData quizPlayerData : getQuizPlayerDataManagerFromJson().quizPlayersData) {
+            for (QuizPlayerData quizPlayerData : dataManager.quizPlayersData) {
+
 
                 String name = quizPlayerData.playerName;
+                Integer questionsAnswered = quizPlayerData.questionsAnswered;
+                Integer questionsCorrect = quizPlayerData.correctQuestions;
+                LocalDateTime joinDate = quizPlayerData.joinDate;
 
-                writer.write(name + "\n");
+                writer.write(String.format("%s, %s, %d, %d, %s%n",
+                    dataManager.quizName,
+                    name,
+                    questionsAnswered,
+                    questionsCorrect,
+                    joinDate
+                ));
             }
 
         } catch (IOException e) {
