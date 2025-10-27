@@ -5,12 +5,18 @@ import Models.QuizPlayerData;
 import Services.ErrorHandlerService;
 import Services.ResultsService;
 import Singletons.GameManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -96,9 +102,18 @@ public class ResultsController implements IScoresUploadNotifier {
     }
 
     @FXML
-    protected void onCsvExport(){
+    protected void onCsvExport(ActionEvent event) {
         try {
-            gameManager.exportResultsToCsv();
+            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle("Select Folder to Save CSV");
+            
+            directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+            File selectedDirectory = directoryChooser.showDialog(stage);
+            String filePath = selectedDirectory.getAbsolutePath();
+
+            gameManager.exportResultsToCsv(filePath);
         }
         catch (Exception e) {
             errorHandlerService.displayErrorMessage(e.getMessage());

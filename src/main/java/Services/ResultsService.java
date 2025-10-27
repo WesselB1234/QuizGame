@@ -7,8 +7,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Comparator;
 
 public class ResultsService {

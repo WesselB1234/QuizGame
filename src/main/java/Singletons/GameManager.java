@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class GameManager {
@@ -22,14 +23,12 @@ public class GameManager {
     private final QuizGame quizGame;
     private final HashMap<String, QuizPlayerData> players = new HashMap<>();
     private final String resultsJsonDir;
-    private final String resultsCsvDir;
     private final ScoresUploadObserver scoresUploadObserver = new ScoresUploadObserver();
     private Boolean isPracticeMode;
 
     public GameManager (QuizGame quizGame, String resultsFolderDir) {
         this.quizGame = quizGame;
         resultsJsonDir = resultsFolderDir + quizGame.quizId + "-results.json";
-        resultsCsvDir = "C:\\Development\\ProjectJavaFundamentals\\src\\main\\CSVs\\" + quizGame.quizId + "-results.csv";;
     }
 
     private String generatePlayerId(){
@@ -102,14 +101,13 @@ public class GameManager {
         mapper.writeValue(new File(resultsJsonDir), dataManager);
     }
 
-    public void exportResultsToCsv() throws IOException{
+    public void exportResultsToCsv(String fileDir) throws IOException{
 
-        try (FileWriter writer = new FileWriter(resultsCsvDir)) {
+        try (FileWriter writer = new FileWriter(fileDir + "\\" + quizGame.quizId + "-results.csv")) {
 
-            QuizPlayerDataManager dataManager = getQuizPlayerDataManagerFromJson();
+            for (Map.Entry<String, QuizPlayerData> entry : players.entrySet()) {
 
-            for (QuizPlayerData quizPlayerData : dataManager.quizPlayersData) {
-
+                QuizPlayerData quizPlayerData = entry.getValue();
 
                 String name = quizPlayerData.playerName;
                 Integer questionsAnswered = quizPlayerData.questionsAnswered;
@@ -117,7 +115,7 @@ public class GameManager {
                 LocalDateTime joinDate = quizPlayerData.joinDate;
 
                 writer.write(String.format("%s;%s;%d;%d;%s%n",
-                    dataManager.quizName,
+                    quizGame.title,
                     name,
                     questionsAnswered,
                     questionsCorrect,
