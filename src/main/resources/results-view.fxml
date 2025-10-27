@@ -13,6 +13,8 @@
 
     <Label styleClass="header-text" text="Player Results" />
     <Label fx:id="errorLbl" styleClass="error-label" visible="false" />
+    <Label fx:id="localPlayerScoreLbl" />
+    <Label fx:id="perfectScoreLbl" text="Excellent! You answered all questions correctly." visible="false" />
 
     <TableView fx:id="resultsTableView" prefHeight="343.0">
         <columns>

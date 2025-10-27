@@ -19,7 +19,7 @@ public class QuizPlayerData {
     public String playerName;
     public Integer questionsAnswered;
     public Integer correctQuestions;
-    public Double scoreInPercentage;
+    public Integer scoreInPercentage;
     public LocalDateTime joinDate;
 
     public QuizPlayerData(String playerName, Integer questionsAnswered, Integer correctQuestions, LocalDateTime joinDate) {
@@ -43,8 +43,8 @@ public class QuizPlayerData {
         return correctQuestions;
     }
 
-    public Double getScoreInPercentage() {
-        return (double) correctQuestions / questionsAnswered * 100;
+    public Integer getScoreInPercentage() {
+        return (int)(double) correctQuestions / questionsAnswered * 100;
     }
 
     public LocalDateTime getJoinDate() {
