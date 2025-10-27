@@ -115,7 +115,7 @@ public class GameManager {
                 Integer questionsCorrect = quizPlayerData.correctQuestions;
                 LocalDateTime joinDate = quizPlayerData.joinDate;
 
-                writer.write(String.format("%s, %s, %d, %d, %s%n",
+                writer.write(String.format("%s;%s;%d;%d;%s%n",
                     dataManager.quizName,
                     name,
                     questionsAnswered,
