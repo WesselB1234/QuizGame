@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,11 +22,13 @@ public class GameManager {
     private final QuizGame quizGame;
     private final HashMap<String, QuizPlayerData> players = new HashMap<>();
     private final String resultsJsonDir;
+    private final String resultsCsvDir;
     private final ScoresUploadObserver scoresUploadObserver = new ScoresUploadObserver();
 
     public GameManager (QuizGame quizGame, String resultsFolderDir) {
         this.quizGame = quizGame;
         resultsJsonDir = resultsFolderDir + quizGame.quizId + "-results.json";
+        resultsCsvDir = "C:\\Development\\ProjectJavaFundamentals\\src\\main\\CSVs\\" + quizGame.quizId + "-results.csv";;
     }
 
     private String generatePlayerId(){
@@ -96,6 +99,24 @@ public class GameManager {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         mapper.writeValue(new File(resultsJsonDir), dataManager);
+    }
+
+    public void exportResultsToCsv() throws IOException{
+
+        try (FileWriter writer = new FileWriter(resultsCsvDir)) {
+
+            writer.write("Name" + "\n");
+
+            for (QuizPlayerData quizPlayerData : getQuizPlayerDataManagerFromJson().quizPlayersData) {
+
+                String name = quizPlayerData.playerName;
+
+                writer.write(name + "\n");
+            }
+
+        } catch (IOException e) {
+            throw new IOException(e);
+        }
     }
 
     public void saveScores() throws IOException{

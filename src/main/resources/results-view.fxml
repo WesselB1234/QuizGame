@@ -15,6 +15,7 @@
     <Label fx:id="errorLbl" styleClass="error-label" visible="false" />
     <Label fx:id="localPlayerScoreLbl" />
     <Label fx:id="perfectScoreLbl" text="Excellent! You answered all questions correctly." visible="false" />
+    <Button text="Export results to CSV" onAction="#onCsvExport" />
 
     <TableView fx:id="resultsTableView" prefHeight="343.0">
         <columns>

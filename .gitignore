@@ -37,3 +37,4 @@ build/
 ### Mac OS ###
 .DS_Store
 /src/main/JSONs/QuizResults/
+/src/main/CSVs/

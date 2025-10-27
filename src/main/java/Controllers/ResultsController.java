@@ -35,8 +35,6 @@ public class ResultsController implements IScoresUploadNotifier {
 
     public ResultsController(GameManager gameManager) {
         this.gameManager = gameManager;
-
-        gameManager.
     }
 
     @FXML
@@ -91,6 +89,16 @@ public class ResultsController implements IScoresUploadNotifier {
 
         try {
             resultsService.getAndPutScoresInTable();
+        }
+        catch (Exception e) {
+            errorHandlerService.displayErrorMessage(e.getMessage());
+        }
+    }
+
+    @FXML
+    protected void onCsvExport(){
+        try {
+            gameManager.exportResultsToCsv();
         }
         catch (Exception e) {
             errorHandlerService.displayErrorMessage(e.getMessage());
