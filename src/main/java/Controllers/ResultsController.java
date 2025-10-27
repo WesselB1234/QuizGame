@@ -21,6 +21,8 @@ public class ResultsController implements IScoresUploadNotifier {
     @FXML
     private TableColumn<QuizPlayerData, LocalDateTime> joinDateColumn;
     @FXML
+    private TableColumn<QuizPlayerData, Double> scorePercentageColumn;
+    @FXML
     private Label errorLbl;
 
     private final GameManager gameManager;
@@ -47,11 +49,26 @@ public class ResultsController implements IScoresUploadNotifier {
 
                     super.updateItem(item, empty);
 
+                if (empty || item == null) {
+                    setText(null);
+                }
+                else {
+                    setText(item.format(formatter));
+                }
+                }
+            });
+
+            scorePercentageColumn.setCellFactory(column -> new TableCell<QuizPlayerData, Double>() {
+                @Override
+                protected void updateItem(Double item, boolean empty) {
+
+                    super.updateItem(item, empty);
+
                     if (empty || item == null) {
                         setText(null);
                     }
                     else {
-                        setText(item.format(formatter));
+                        setText(item + "%");
                     }
                 }
             });

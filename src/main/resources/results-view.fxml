@@ -26,9 +26,9 @@
                     <PropertyValueFactory property="questionsAnswered" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn prefWidth="200" text="Correct answers">
+            <TableColumn fx:id="scorePercentageColumn" prefWidth="200" text="Correct answers">
                 <cellValueFactory>
-                    <PropertyValueFactory property="correctQuestions" />
+                    <PropertyValueFactory property="scoreInPercentage" />
                 </cellValueFactory>
             </TableColumn>
             <TableColumn fx:id="joinDateColumn" prefWidth="200" text="Join date">
